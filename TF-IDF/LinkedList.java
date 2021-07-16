@@ -1,5 +1,8 @@
 //package FinalProject.TF-IDF;
 
+//Imports
+import java.util.Iterator;
+
 /**
  * Implementación de una LinkedList basada en arreglos y usando
  * el TDAList de Emmanuel Cruz Hernández.
@@ -65,7 +68,7 @@ public class LinkedList<T> implements TDAList<T>{
     private Nodo ultimo;
 
     /** Cantidad de elementos agregados*/ 
-    private int longitud;
+    private int length;
 
     /**
      * Inserta un nuevo elemento <i>e</i> en la posición <i>i</i>.
@@ -136,10 +139,11 @@ public class LinkedList<T> implements TDAList<T>{
 	//Si contiene más de 1 elemento
 	Nodo iterador = cabeza;
 	for(int i = 0; i < length; i++){
-	    if(e.equals(iterador.Cabeza.elemento))
+	    if(e.equals(iterador.elemento))
 		return true;
 	    iterador = iterador.siguiente;
 	}
+	return false;
     }
 
     /**
@@ -198,7 +202,7 @@ public class LinkedList<T> implements TDAList<T>{
 	}else if(i == length-1){
 	    Nodo iterador = cabeza;
 	    for(int j = 0; j < length-2; j++){
-		iterador.siguiente;
+		iterador = iterador.siguiente;
 	    }
 	    borrado = ultimo.elemento;
 	    ultimo = iterador;
@@ -210,7 +214,7 @@ public class LinkedList<T> implements TDAList<T>{
 	    for(int j = 0; j < i; j++){
 		if(j != 0)
 		    iterador2 = iterador2.siguiente;
-		iterador1.siguiente;
+		iterador1 = iterador1.siguiente;
 	    }
 	    borrado = iterador1.elemento;
 	    iterador2.siguiente = iterador1.siguiente;
@@ -244,7 +248,7 @@ public class LinkedList<T> implements TDAList<T>{
      * Creador de un iterador para la lista.
      * @return Iterador de la lista comenzando en la cabeza.
      */    
-    public Iterator iterador(){
+    public IteradorLista iterador(){
 	return new IteradorLista(this.cabeza);
     }
 }
