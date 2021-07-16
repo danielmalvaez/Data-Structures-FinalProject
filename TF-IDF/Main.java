@@ -35,7 +35,7 @@ public class Main{
 
 		File dir = aux.animationProgressBar(pathName);
 
-		File[] list = dir.listFiles(filter);
+		File[] listDocs = dir.listFiles(filter);
 		if(list.length == 0){
 		    System.out.println("\nNo hay archivos .txt en esta ruta.\n");
 		    continue;

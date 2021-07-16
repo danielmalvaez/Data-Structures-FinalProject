@@ -8,6 +8,6 @@
  * @author Axel Daniel Malvaez Flores
  * @version 1.0
  */
-public class ReadDocuments{
+public class Reader{
     
 }
