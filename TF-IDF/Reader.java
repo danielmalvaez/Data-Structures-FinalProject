@@ -6,6 +6,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
+import java.io.File;
+import java.text.Normalizer;
 
 /**
  * Clase que nos ayuda a leer documentos .txt y almacenarlos en una lista.
@@ -20,8 +23,8 @@ public class Reader{
 	String line = "";
 	String document = "";
 	try{
-	    reader = new FileReader();
-	    lector = new BufferedReader(new FileReader(file));
+	    reader = new FileReader(file);
+	    lector = new BufferedReader(reader);
 	    
 	    do{
 		line = lector.readLine();
@@ -46,29 +49,25 @@ public class Reader{
 	}
 
 	String documentDepured = "";
-	char letter = null;
+	char letter = ' ';
 	for(int i = 0; i < document.length(); i++){
-	    letter = charAt(i);
-	    if(){
+	    letter = document.charAt(i);
+	    if(!Character.isLetter(letter)){
+		documentDepured = documentDepured + " ";
+		continue;
 	    }
+	    documentDepured = documentDepured + letter;
 	}
 	
+	String normalDoc = Normalizer.normalize(documentDepured.toLowerCase(), Normalizer.Form.NFD);
+	String noAccents = normalDoc.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+	Scanner io = new Scanner(noAccents).useDelimiter("\\s*\\s");
 	LinkedList<String> fileList = new LinkedList<>();
 	
-
+	while(io.hasNext()){
+	    fileList.add(fileList.size(), io.next());
+	}
+	return fileList;
     }//Method readDocument
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
 }//Class

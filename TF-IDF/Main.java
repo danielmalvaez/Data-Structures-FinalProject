@@ -7,6 +7,8 @@ import java.io.FileFilter;
 import java.util.Scanner;
 import java.io.IOException;
 import java.lang.String;
+import java.text.Normalizer;
+import java.util.Scanner;
 
 /**
  * Clase donde encontraremos el Main del proyecto.
@@ -83,6 +85,18 @@ public class Main{
 		}
 		break;
 	    case 2:
+		//File myFile = new File("ejemplo.txt");
+		String ejem = "This is an example";
+		Scanner io = new Scanner(ejem).useDelimiter("\\s*\\s");
+
+		LinkedList<String> fileList = new LinkedList<>();
+		
+		while(io.hasNext()){
+		    fileList.add(fileList.size(),io.next());
+		}
+
+		fileList.show();
+		
 		break;
 	    case 3:
 		System.out.println("Hasta luego...");

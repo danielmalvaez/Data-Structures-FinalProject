@@ -9,10 +9,12 @@
 
 * Lectura de los Documentos TXT (Clase Distinta)
 	* Utilizar FileReader
+	* 
 	
 	
 	
-	
+#### Pendientes
+* Depurar entrada en Main.
 	
 	
 	

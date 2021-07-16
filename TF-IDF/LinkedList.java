@@ -236,7 +236,7 @@ public class LinkedList<T> implements TDAList<T>{
     /**
      * Imprime los elementos de la lista.
      */
-    public void showList(){
+    public void show(){
 	Nodo iterador = cabeza;
 	while(iterador != null){
 	    System.out.println(iterador.elemento);
