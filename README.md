@@ -15,24 +15,8 @@
 	
 #### Pendientes
 * Depurar entrada en Main.
-	
-	
-	
-	
-	
-	
-	
-	
-* Procesamiento de los Documentos TXT
-
-
-
-
-
-
-
-
-
+* Convertir cada File en una LinkedList.
+* Procesamiento de los TXT
 
 
 
