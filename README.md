@@ -7,8 +7,36 @@
 	* Mostrar un progress bar mientras se cargan los archivos
 	* Menú para búsqueda, historial y salida del programa.
 
-* Lectura de los Documentos TXT
+* Lectura de los Documentos TXT (Clase Distinta)
+	* Utilizar FileReader
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 * Procesamiento de los Documentos TXT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #### Funcionamiento del proyecto (Usuario):
 * El programa pide una ruta de entrada en donde buscará los archivos con extensión .txt y los procesará.
