@@ -11,12 +11,21 @@ import java.io.File;
 import java.text.Normalizer;
 
 /**
- * Clase que nos ayuda a leer documentos .txt y almacenarlos en una lista.
+ * Clase que nos ayudara a leer documentos con extension .txt  y los almacenara
+ * en una lista.
  * @author Axel Daniel Malvaez Flores
  * @version 1.0
  */
 public class Reader{
-    public LinkedList<String> readDocument(File file){
+
+    /**
+     * Metodo que utiliza como parametro un file de extension .txt y lo guarda en un
+     * String para despues pasarlo a una lista simplemente ligada y posteriormente
+     * regresarla con cada palabra en la lista.
+     * @param File - Un archivo con extensión .txt.
+     * @return LinkedList<Pair<String, Boolean>> - Una lista ligada con cada palabra del texto en un nodo.
+     */
+    public LinkedList<Pair<String, Boolean>> readDocument(File file){
 	FileReader reader = null;
 	BufferedReader lector = null;
 	
@@ -59,13 +68,14 @@ public class Reader{
 	    documentDepured = documentDepured + letter;
 	}
 	
-	String normalDoc = Normalizer.normalize(documentDepured.toLowerCase(), Normalizer.Form.NFD);
-	String noAccents = normalDoc.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+	documentDepured = Normalizer.normalize(documentDepured.toLowerCase(), Normalizer.Form.NFD);
+	String noAccents = documentDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 	Scanner io = new Scanner(noAccents).useDelimiter("\\s*\\s");
-	LinkedList<String> fileList = new LinkedList<>();
+	LinkedList<Pair<String, Boolean>> fileList = new LinkedList<>();
 	
 	while(io.hasNext()){
-	    fileList.add(fileList.size(), io.next());
+	    Pair<String, Boolean> pair = new Pair<>(io.next(), false);
+	    fileList.add(fileList.size(), pair);
 	}
 	return fileList;
     }//Method readDocument
