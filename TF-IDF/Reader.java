@@ -25,7 +25,7 @@ public class Reader{
      * @param File - Un archivo con extensión .txt.
      * @return LinkedList<Pair<String, Boolean>> - Una lista ligada con cada palabra del texto en un nodo.
      */
-    public LinkedList<Pair<String, Boolean>> readDocument(File file){
+    public LinkedList<String> readDocument(File file){
 	FileReader reader = null;
 	BufferedReader lector = null;
 	
@@ -71,11 +71,10 @@ public class Reader{
 	documentDepured = Normalizer.normalize(documentDepured.toLowerCase(), Normalizer.Form.NFD);
 	String noAccents = documentDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 	Scanner io = new Scanner(noAccents).useDelimiter("\\s*\\s");
-	LinkedList<Pair<String, Boolean>> fileList = new LinkedList<>();
+	LinkedList<String> fileList = new LinkedList<>();
 	
 	while(io.hasNext()){
-	    Pair<String, Boolean> pair = new Pair<>(io.next(), false);
-	    fileList.add(fileList.size(), pair);
+	    fileList.add(fileList.size(), io.next());
 	}
 	return fileList;
     }//Method readDocument

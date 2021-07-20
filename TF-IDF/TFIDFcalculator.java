@@ -2,6 +2,7 @@
 //package ProyectoFinal;
 
 //Imports
+import java.util.Scanner;
 /*
 import java.io.File;
 import java.io.FileFilter;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.lang.String;
 import java.text.Normalizer;
-import java.util.Scanner;
+
 */
 
 /**
@@ -21,8 +22,24 @@ import java.util.Scanner;
 public class TFIDFcalculator {
 
     /**
+     * Método que nos devuelve una lista de un documento, en una lista de parejas de
+     * String y Boolean, inicializadas todas en false.
+     * @param list - Una lista simplemente ligada de tipo String
+     * @return LinkedList<Pair<String, Boolean>> - Una lista simplemente ligada de tipo Pair<String, Boolean>.
+     */
+    public static LinkedList<Pair<String, Boolean>> listaFalse(LinkedList<String> list){
+	LinkedList<Pair<String, Boolean>> fileList = new LinkedList<>();
+	while(list.hasNext()){
+	    Pair<String, Boolean> pair = new Pair<>(io.next(), false);
+	    fileList.add(fileList.size(), pair);
+	}
+    }
+
+    /**
      * Metodo que nos devuelve una lista con elementos de tipo Pair<String, Integer>
      * utilizando la lista pasada como método.
+     * @param list - Una lista simplemente ligada de tipo Pair<String, Boolean>.
+     * @return LinkedList<Pair<String, Integer>> - Una lista simplemente ligada de tipo Pair<String, Integer>.
      */
     public static LinkedList<Pair<String, Integer>> listaOcurrencias(LinkedList<Pair<String, Boolean>> list){
 	if(list.isEmpty())
@@ -56,27 +73,40 @@ public class TFIDFcalculator {
 	return listOcurr;
     }//listaOcurrencias method.
 
-    public static 
-
     
 
-    /*
-      public static void main(String[] args){
-      LinkedList<Pair<String, Boolean>> list = new LinkedList<>();
-      list.add(list.size(), new Pair<String, Boolean>("hola", false));
-      list.add(list.size(), new Pair<String, Boolean>("que", false));
-      list.add(list.size(), new Pair<String, Boolean>("haces", false));
-      list.add(list.size(), new Pair<String, Boolean>("como", false));
-      list.add(list.size(), new Pair<String, Boolean>("estas", false));
-      list.add(list.size(), new Pair<String, Boolean>("hola", false));
-      list.add(list.size(), new Pair<String, Boolean>("estas", false));
-      list.add(list.size(), new Pair<String, Boolean>("espero", false));
-      list.add(list.size(), new Pair<String, Boolean>("que", false));
-      list.add(list.size(), new Pair<String, Boolean>("si", false));
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+    public static void main(String[] args){
+	LinkedList<Pair<String, Boolean>> list = new LinkedList<>();
+	list.add(list.size(), new Pair<String, Boolean>("hola", false));
+	list.add(list.size(), new Pair<String, Boolean>("que", false));
+	list.add(list.size(), new Pair<String, Boolean>("haces", false));
+	list.add(list.size(), new Pair<String, Boolean>("como", false));
+	list.add(list.size(), new Pair<String, Boolean>("estas", false));
+	list.add(list.size(), new Pair<String, Boolean>("hola", false));
+	list.add(list.size(), new Pair<String, Boolean>("estas", false));
+	list.add(list.size(), new Pair<String, Boolean>("espero", false));
+	list.add(list.size(), new Pair<String, Boolean>("que", false));
+	list.add(list.size(), new Pair<String, Boolean>("si", false));
+	list.add(list.size(), new Pair<String, Boolean>("pasear", false));
+	list.add(list.size(), new Pair<String, Boolean>("por", false));
+	list.add(list.size(), new Pair<String, Boolean>("el", false));
+	list.add(list.size(), new Pair<String, Boolean>("parque", false));
       
-      LinkedList<Pair<String, Integer>> miLista2 = listaOcurrencias(list);
-      miLista2.show();
+	LinkedList<Pair<String, Integer>> miLista2 = listaOcurrencias(list);
+	miLista2.show();
       
-      }
-    */
+    }
 }

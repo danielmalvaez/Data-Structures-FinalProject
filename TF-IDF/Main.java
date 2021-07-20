@@ -95,9 +95,10 @@ public class Main{
 	    switch(hacer){
 	    case 1:
 		boolean validLength = false;
+		String search = null;
 		while(!validLength){
 		    System.out.print("\nBusqueda: ");
-		    String search = sc.nextLine();
+		    search = sc.nextLine();
 		    if(search.length() < 200){
 			validLength = true;
 		    }else{
@@ -105,10 +106,11 @@ public class Main{
 		    }	    
 		}
 		
-		//Busqueda de manera normal y con minusculas.
+		/*Busqueda de manera normal y con minusculas.
 		search = Normalizer.normalize(search.toLowerCase(), Normalize.Form.NFD);
 		//Busqueda sin acentos.
 		String searchNA = search.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+		*/
 		
 		break;
 
