@@ -76,7 +76,7 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	 * Colorea el nodo de negro.
 	 */
 	public void paintBlack(RedBlackNode v){
-	    if(isRed(v))
+	    if(v.isRed(v))
 		this.setColor();
 	}
 
@@ -84,7 +84,7 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	 * Colorea el nodo de rojo.
 	 */
 	public void paintRed(RedBlackNode v){
-	    if(isBlack(v))
+	    if(v.isBlack(v))
 		this.setColor();
 	}
 
@@ -198,13 +198,13 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	
 	RedBlackNode a = p.parent;    //Padre de p, i.e. abuelo del actual.
 	RedBlackNode t = (a.left == p) ? a.right : a.left;
-
+	
 	//Caso 3: Si el padre es rojo y el tio es rojo
 	if(actual.isRed(p) && actual.isRed(t)){
 	    System.out.println("Entra al caso 3");
-	    actual.paintBlack(p);
-	    actual.paintBlack(t);
-	    actual.paintRed(a);
+	    p.setColor();
+	    t.setColor();
+	    a.setColor();
 	    this.rebalancear(a);
 	    return;
 	}
@@ -217,11 +217,12 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	    }else{
 		this.rotarIzquierda(p);
 	    }
+	    
 	    this.rebalancear(p);
 	} else { //Caso 5. Si el padre y el actual no estan cruzados.
 	    System.out.println("Entra al caso 5");
-	    actual.paintBlack(p);
-	    actual.paintRed(a);
+	    p.setColor();
+	    a.setColor();
 	    
 	    if(actual == p.right){
 		this.rotarIzquierda(a);
@@ -269,7 +270,7 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 		actual.left = null;
 	    }
 	    actual.parent = hi;
-	    hi.left = actual;
+	    hi.right = actual;
 	    return;
 	}
     }
@@ -445,18 +446,40 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
     public static void main(String[] args) {
 	RedBlackTree<Double, String> arbol1 = new RedBlackTree<>();
 	arbol1.insert("do", 2.0);
+	/*System.out.println(arbol1.root.element);
+	System.out.println(arbol1.root.isRed(arbol1.root));
+	System.out.println();*/
 	arbol1.insert("you", 5.0);
+	/*System.out.println(arbol1.root.element);
+	System.out.println(arbol1.root.right.element);
+	System.out.println(arbol1.root.isRed(arbol1.root));
+	System.out.println(arbol1.root.right.isRed(arbol1.root.right));
+	System.out.println();*/
 	arbol1.insert("quarrel", 3.0);
+	/*System.out.println(arbol1.root.element);
+	System.out.println(arbol1.root.left.element);
+	System.out.println(arbol1.root.right.element);
+	System.out.println(arbol1.root.isRed(arbol1.root));
+	System.out.println(arbol1.root.left.isRed(arbol1.root.left));
+	System.out.println(arbol1.root.right.isRed(arbol1.root.right));
+	System.out.println();
+	*/
+	arbol1.insert("sir", 4.0);
+	
+	arbol1.insert("am", 1.0);
 
 	System.out.println("Arbol1 preorden:");
 	arbol1.preorden();
-	
-	//arbol1.insertRB("sir", 4.0);
-	//arbol1.insertRB("am", 1.0);
 
-	//System.out.println();
-	
-	
+	System.out.println();
+
+	System.out.println("Arbol1 inorden:");
+	arbol1.inorden();
+
+	System.out.println();
+
+	System.out.println("Arbol1 postorden:");
+	arbol1.postorden();
 	
     }
 }
