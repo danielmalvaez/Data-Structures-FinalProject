@@ -292,17 +292,106 @@ public class BinarySearchTree<K extends Comparable, T> implements TDABinarySearc
 	System.out.println(actual.element);
     }
 
+    /**
+     * Rotar un arbol hacia la derecha.
+     * @param actual - nodo desde el cual se hará la rotacion.
+     */
+    public void rotarDerecha(BinaryNode actual){
+	//Caso 1: en que actual no tiene hijo izquierdo ni derecho.
+	if(actual.left == null && actual.right == null)
+	    return;
+	//Caso 2: en que actual no tiene hijo izquierdo con el cual rotar.
+	if(actual.left == null)
+	    return;
+	//Caso 3: en que actual tiene al menos el hijo izquierdo.
+	if(actual.left != null){
+	    BinaryNode hi = actual.left;
+	    BinaryNode nietod = hi.right;
+	    BinaryNode padre = actual.parent;
+
+	    //Verificar si actual es la raiz
+	    if(padre == null)
+		root = hi;
+
+	    //Si el actual no es es la raiz entonces tiene padre.
+	    if(padre != null && actual == padre.left)
+		padre.left = hi;
+	    else if(padre != null && actual == padre.right)
+		padre.right = hi;
+
+	    //Asignamos
+	    hi.parent = padre;
+	    if(nietod != null){
+		nietod.parent = actual;
+		actual.left = nietod;
+	    }else{
+		actual.left = null;
+	    }
+	    actual.parent = hi;
+	    hi.left = actual;
+	}
+    }
+
+    /**
+     * Rotar un arbol hacia la izquierda.
+     * @param actual - nodo desde el cual se hará la rotacion.
+     */
+    public void rotarIzquierda(BinaryNode actual){
+	//Caso 1: en que actual no tiene hijo izquierdo ni derecho.
+	if(actual.left == null && actual.right == null)
+	    return;
+	//Caso 2: en que actual no tiene hijo derecho con el cual rotar.
+	if(actual.right == null)
+	    return;
+	//Caso 3: en que actual tiene al menos el hijo derecho.
+	if(actual.right != null){
+	    BinaryNode hd = actual.right;
+	    BinaryNode nietoi = hd.left;
+	    BinaryNode padre = actual.parent;
+
+	    //Verificar si el actual es la raíz
+	    if(padre == null)
+		root = hd;
+
+	    //Si el actual no es es la raiz entonces tiene padre.
+	    if(padre != null && actual == padre.left)
+		padre.left = hd;
+	    else if(padre != null && actual == padre.right)
+		padre.right = hd;
+	    
+	    //Asignamos
+	    hd.parent = padre;
+	    if(nietoi != null){
+		nietoi.parent = actual;
+		actual.right = nietoi;
+	    }else{
+		actual.right = null;
+	    }
+	    actual.parent = hd;
+	    hd.left = actual;
+	}
+    }
+    
     public static void main(String[] args){
-	BinarySearchTree<String, Double> arbol = new BinarySearchTree<>();
+	BinarySearchTree<Double, String> arbol1 = new BinarySearchTree<>();
 
-	arbol.insert(1.0, "do");
-	arbol.insert(2.0, "you");
-	arbol.insert(3.0, "quarrel");
-	arbol.insert(4.0, "sir");
-	arbol.insert(5.0, "am");
+	arbol1.insert("do", 2.0);
+	arbol1.insert("you", 5.0);
+	arbol1.insert("quarrel", 3.0);
+	arbol1.insert("sir", 4.0);
+	arbol1.insert("am", 1.0);
+	
+	System.out.println("Arbol1 preorden:");
+	arbol1.preorden();
 
-	arbol.delete("am");
+	System.out.println();
+	arbol1.rotarIzquierda(arbol1.root);
 
-	arbol.preorden();
+	System.out.println("Arbol1 preorden:");
+	arbol1.preorden();
+
+	System.out.println();
+	
+	
     }
 }
