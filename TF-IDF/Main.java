@@ -38,6 +38,7 @@ public class Main{
 	System.out.println("-----------------------------\n");
 
 	boolean validPath = false;
+	File[] arrDocs = null;
 	while(!validPath){
 	    try{
 		System.out.println("Buscar en ... (e.g. /Users/dan/docs/):");
@@ -46,8 +47,8 @@ public class Main{
 		//Animacion para simular la barra de porcentage de carga.
 		File dir = aux.animationProgressBar(pathName);
 
-		File[] listDocs = dir.listFiles(filter);
-		if(listDocs.length == 0){
+		arrDocs = dir.listFiles(filter);
+		if(arrDocs.length == 0){
 		    System.out.println("\nNo hay archivos .txt en esta ruta.\n");
 		    continue;
 		}
@@ -58,6 +59,9 @@ public class Main{
 	} //While validPath
 	
 	System.out.println("\nArchivos cargados con exito!");
+
+	LinkedList<Pair<String,Integer>>[] docsList = new LinkedList<Pair<String,Integer>>[listDocs.length];
+
 
 	/** Menu para interactuar con el motor de busqueda, se encuentran las
 	 siguientes opciones: buscar, historial, salir del programa.*/

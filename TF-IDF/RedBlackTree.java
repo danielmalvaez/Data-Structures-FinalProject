@@ -6,7 +6,7 @@
  * @version 1.0 Julio 2021.
  * @since Estructuras de Datos 2021-2.
  */
-public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,T>{
+public class RedBlackTree<T, K extends Comparable> implements TDARedBlackTree<K,T>{
 
     /**
      * Nodo para árboles rojinegros.
@@ -184,7 +184,6 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	
 	//Caso 1: Si la raiz es roja, cambia color a negro.
 	if(actual.parent == null){
-	    System.out.println("Entra al caso 1");
 	    actual.paintBlack(actual);
 	    return;
 	}
@@ -192,7 +191,6 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	//Caso 2: Si el padre es negro termina.
 	RedBlackNode p = actual.parent;  //Padre del actual
 	if(actual.isBlack(p)){
-	    System.out.println("Entra al caso 2");
 	    return;
 	}
 	
@@ -201,7 +199,6 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	
 	//Caso 3: Si el padre es rojo y el tio es rojo
 	if(actual.isRed(p) && actual.isRed(t)){
-	    System.out.println("Entra al caso 3");
 	    p.setColor();
 	    t.setColor();
 	    a.setColor();
@@ -211,7 +208,6 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 
 	//Caso 4. Si el padre y el actual estan cruzados
 	if((p == a.right && actual == p.left) || (p == a.left && actual == p.right)){
-	    System.out.println("Entra al caso 4");
 	    if(p == a.right){
 		this.rotarDerecha(p);
 	    }else{
@@ -220,7 +216,6 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	    
 	    this.rebalancear(p);
 	} else { //Caso 5. Si el padre y el actual no estan cruzados.
-	    System.out.println("Entra al caso 5");
 	    p.setColor();
 	    a.setColor();
 	    
@@ -442,32 +437,15 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 	postordenAux(actual.right);
 	System.out.println(actual.element);
     }
-    
+    /*
     public static void main(String[] args) {
 	RedBlackTree<Double, String> arbol1 = new RedBlackTree<>();
 	arbol1.insert("do", 2.0);
-	/*System.out.println(arbol1.root.element);
-	System.out.println(arbol1.root.isRed(arbol1.root));
-	System.out.println();*/
 	arbol1.insert("you", 5.0);
-	/*System.out.println(arbol1.root.element);
-	System.out.println(arbol1.root.right.element);
-	System.out.println(arbol1.root.isRed(arbol1.root));
-	System.out.println(arbol1.root.right.isRed(arbol1.root.right));
-	System.out.println();*/
 	arbol1.insert("quarrel", 3.0);
-	/*System.out.println(arbol1.root.element);
-	System.out.println(arbol1.root.left.element);
-	System.out.println(arbol1.root.right.element);
-	System.out.println(arbol1.root.isRed(arbol1.root));
-	System.out.println(arbol1.root.left.isRed(arbol1.root.left));
-	System.out.println(arbol1.root.right.isRed(arbol1.root.right));
-	System.out.println();
-	*/
 	arbol1.insert("sir", 4.0);
-	
 	arbol1.insert("am", 1.0);
-
+	
 	System.out.println("Arbol1 preorden:");
 	arbol1.preorden();
 
@@ -480,6 +458,9 @@ public class RedBlackTree<K extends Comparable, T> implements TDARedBlackTree<K,
 
 	System.out.println("Arbol1 postorden:");
 	arbol1.postorden();
-	
+
+	System.out.println("Elemento con la clave:" + 2.0);
+	System.out.println(arbol1.retrieve(4.0));	
     }
+    */
 }
