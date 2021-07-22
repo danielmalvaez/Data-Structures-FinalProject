@@ -47,6 +47,7 @@ public class Main{
 		//Animacion para simular la barra de porcentage de carga.
 		File dir = aux.animationProgressBar(pathName);
 
+		//Guardar los documentos en un arreglo de tipo File.
 		arrDocs = dir.listFiles(filter);
 		if(arrDocs.length == 0){
 		    System.out.println("\nNo hay archivos .txt en esta ruta.\n");
@@ -60,8 +61,17 @@ public class Main{
 	
 	System.out.println("\nArchivos cargados con exito!");
 
-	LinkedList<Pair<String,Integer>>[] docsList = new LinkedList<Pair<String,Integer>>[listDocs.length];
-
+	//Arreglo en donde se guardaran los documentos.
+	LinkedList<String>[] docsList = new LinkedList[arrDocs.length];
+	//Lista Auxiliar de recuperacion de una LinkedList.
+	LinkedList<String> auxList = null;
+	//Lector
+	Reader reader = new Reader();
+	//Lectura de todos los documentos.
+	for(int i = 0; i < arrDocs.length; i++){
+	    auxList = reader.readDocument(arrDocs[i]);
+	    docsList[i] = auxList;
+	}
 
 	/** Menu para interactuar con el motor de busqueda, se encuentran las
 	 siguientes opciones: buscar, historial, salir del programa.*/

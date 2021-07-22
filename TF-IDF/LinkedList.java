@@ -155,7 +155,9 @@ public class LinkedList<T> implements TDAList<T>{
     public T get(int i) throws IndexOutOfBoundsException{
 	if(i < 0 || i >= length)
 	    throw new IndexOutOfBoundsException("Index out of Bounds");
-
+	if(i == (size() - 1)){
+	    return ultimo.elemento;
+	}
 	Nodo iterador = cabeza;
 	for(int j = 0; j < i; j++){
 	    iterador = iterador.siguiente;
