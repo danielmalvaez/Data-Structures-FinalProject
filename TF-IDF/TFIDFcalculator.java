@@ -46,7 +46,7 @@ public class TFIDFcalculator {
      */
     public static LinkedList<Pair<String, Integer>> listOcurrencias(LinkedList<String> lista){
 	if(lista.isEmpty())
-	    return new LinkedList<Pair<String, Integer>>;
+	    return new LinkedList<Pair<String, Integer>>();
 
 	//Conversion de una lista con simples palabras a una listToFalse.
 	LinkedList<Pair<String, Boolean>> list = listToFalse(lista);
@@ -108,7 +108,7 @@ public class TFIDFcalculator {
 	//Calcular el valor para cada palabra de cada elemento de docsList.
 	for(int i = 0; i < docsList.length; i++){
 	    //Verificacion si la lista es vacia.
-	    if(docsList[i].isEmpty)
+	    if(docsList[i].isEmpty())
 		continue;
 	    //Creacion de un iterador para cada lista en docsList
 	    iterador = docsList[i].iterador();
@@ -157,12 +157,10 @@ public class TFIDFcalculator {
 	Iterator iterador = null;
 	String word = "";
 	double totalDocs = docsList.length + 1.0;
-	double idfWord = 0;
-	//Creacion de un iterador para cada lista en docsList
+	double idfWord = 0.0;
+	//Creacion de un iterador para cada palabra en la consulta.
 	iterador = consulta.iterador();
-	/* Mientras la lista tenga elementos, el contador se inicializa en 0 y
-	 *  y se obtiene el elemento en ese nodo de la lista y posteriormente
-	 *  se obtiene el valor de la pareja.
+	/* Mientras la consulta tenga elementos, seguiremos haciendo el calculo.
 	 */
 	while(iterador.hasNext()){
 	    contador = 0;
@@ -216,7 +214,7 @@ public class TFIDFcalculator {
 	for(int i = 0; i < docsListOcurrencias.length; i++){
 	    //Lista que agregaremos a tfList.
 	    LinkedList<Pair<String, Double>> tfListI = new LinkedList<>();
-	    if(docsListOcurrencias[i].isEmpty){
+	    if(docsListOcurrencias[i].isEmpty()){
 		tfList[i] = tfListI;
 		continue;
 	    }
@@ -276,7 +274,14 @@ public class TFIDFcalculator {
 	    word = (String)iterador.next();
 	    //Obtener el TF para cada documento de cada palabra de la consulta.
 	    for(int k = 0; k < docsListOcurrencias.length; k++){
-		if(docsListOcurrencias[i].isEmpty){
+		/*Verificacion si alguna lista es vacia dentro del arreglo, automaticamente pone el TF en 0.0 y añade la
+		 * pareja a tfList[k] al final.
+		 */
+		if(docsListOcurrencias[k].isEmpty()){
+		    //Establecemos el tf de word como 0.0.
+		    tfWord = 0.0;
+		    //Agregamos a word con su respectivo TF para el documento k, en la lista k de tfList.
+		    tfList[k].add(tfList[k].size(), new Pair<String, Double>(word, tfWord));
 		    continue;
 		}
 		//Iterador para la lista del elemento k de docsListOcurrencias.
@@ -386,6 +391,14 @@ public class TFIDFcalculator {
 		sum = sum + parejaKey;
 	    }
 
+	    if(tfIdf[k].isEmpty()){
+		resultado = 0;
+		//Añadir el resultado a la posicion k.
+		pareja2 = new Pair<Integer, Double>(k, resultado);
+		arr[k] = pareja2;
+		continue;
+	    }
+		
 	    //Suma para tfIdf
 	    sum2 = 0.0;
 	    Iterator iterador2 = tfIdf[k].iterador();

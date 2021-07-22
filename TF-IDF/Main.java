@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.lang.String;
 import java.text.Normalizer;
 import java.util.Scanner;
-
+import java.util.Iterator;
 /**
  * Clase donde encontraremos el metodo Main del proyecto.
  * @author Axel Daniel Malvaez Flores
@@ -128,16 +128,30 @@ public class Main{
 			System.out.println("Busqueda invalida, rebasa el rango permitido.");
 		    }
 		}
+		//Calcular la similitud de los documentos y la busqueda.
 		Pair<Integer, Double>[] similitud = calculator.similitud(arrTFIDF, arrTFIDFBusqueda);
 		aux.insertionParejas(similitud);
-		String[] documentos = new String[10];
+		//Documentos mas reelevantes para la busqueda..
+		LinkedList<String> docsRelevantes = new LinkedList<String>();
 		int indice = -1;
 		for(int i = 0; i < 10; i++){
 		    if(i < similitud.length){
+			if(similitud[i].getKey() == 0.0)
+			    continue;
 			indice = similitud[i].getValue();
-			System.out.println("Document Name: " + arrDocs[indice].getName());
+			docsRelevantes.add(docsRelevantes.size(), arrDocs[indice].getName());
 		    }
-		}		
+		}
+
+		if(docsRelevantes.isEmpty()){
+		    System.out.println("Ningun documento es relevante para su busqueda.");
+		}else{
+		    Iterator iterador = docsRelevantes.iterador();
+		    while(iterador.hasNext()){
+			String docName = (String)iterador.next();
+			System.out.println("Document name: " + docName);
+		    }
+		}
 		break;
 	    case 2:
 		LinkedList<String> fileList = new LinkedList<>();
