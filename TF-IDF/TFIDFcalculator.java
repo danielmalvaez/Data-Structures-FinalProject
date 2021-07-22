@@ -24,6 +24,8 @@ public class TFIDFcalculator {
      * @return LinkedList<Pair<String, Boolean>> - Una lista simplemente ligada de tipo Pair<String, Boolean>.
      */
     public static LinkedList<Pair<String, Boolean>> listToFalse(LinkedList<String> list){
+	if(list.isEmpty())
+	    return new LinkedList<Pair<String, Boolean>>();
 	//Lista que devolveremos
 	LinkedList<Pair<String, Boolean>> fileList = new LinkedList<>();
 	//Iterador de una lista.
@@ -44,7 +46,7 @@ public class TFIDFcalculator {
      */
     public static LinkedList<Pair<String, Integer>> listOcurrencias(LinkedList<String> lista){
 	if(lista.isEmpty())
-	    return null;
+	    return new LinkedList<Pair<String, Integer>>;
 
 	//Conversion de una lista con simples palabras a una listToFalse.
 	LinkedList<Pair<String, Boolean>> list = listToFalse(lista);
@@ -105,6 +107,9 @@ public class TFIDFcalculator {
 	double idfWord = 0;
 	//Calcular el valor para cada palabra de cada elemento de docsList.
 	for(int i = 0; i < docsList.length; i++){
+	    //Verificacion si la lista es vacia.
+	    if(docsList[i].isEmpty)
+		continue;
 	    //Creacion de un iterador para cada lista en docsList
 	    iterador = docsList[i].iterador();
 	    /* Mientras la lista tenga elementos, el contador se inicializa en 0 y
@@ -168,9 +173,10 @@ public class TFIDFcalculator {
 	    }
 	    //Verificacion de cuantos documentos tienen la palabra word.
 	    for(int k = 0; k < docsList.length; k++){
-		if(docsList[k].contains(word)){
+		if(docsList[k].isEmpty())
+		    continue;
+		if(docsList[k].contains(word))
 		    contador++;
-		}
 	    }
 	    //Calculo del IDF de word.		
 	    if(contador > 0 && docsList.length > 0){
@@ -192,9 +198,9 @@ public class TFIDFcalculator {
     public LinkedList<Pair<String,Double>>[] calcularTF(LinkedList<String>[] docsList){
 	//Conversion de cada lista del docsList a una listOcurrencias.
 	LinkedList<Pair<String, Integer>>[] docsListOcurrencias = new LinkedList[docsList.length];
-	
+	LinkedList<Pair<String, Integer>> listOcurr = null;
 	for(int i = 0; i < docsList.length; i++){
-	    LinkedList<Pair<String, Integer>> listOcurr = listOcurrencias(docsList[i]);
+	    listOcurr = listOcurrencias(docsList[i]);
 	    docsListOcurrencias[i] = listOcurr;
 	}
 	//Arreglo de listas que devolveremos con los valores TF de cada una.
@@ -209,9 +215,13 @@ public class TFIDFcalculator {
 	//Verificamos para cada documento en el arreglo de Ocurrencias.
 	for(int i = 0; i < docsListOcurrencias.length; i++){
 	    //Lista que agregaremos a tfList.
-	    LinkedList<Pair<String, Double>> tfListI = new LinkedList<>(); 
+	    LinkedList<Pair<String, Double>> tfListI = new LinkedList<>();
+	    if(docsListOcurrencias[i].isEmpty){
+		tfList[i] = tfListI;
+		continue;
+	    }
 	    //Creacion del iterador que recorrera la lista que esta en la posicion i.
-	    iterador = docsListOcurrencias[i].iterador();    
+	    iterador = docsListOcurrencias[i].iterador();
 	    while(iterador.hasNext()){
 		pareja = (Pair<String, Integer>)iterador.next();
 		word = pareja.getValue();
@@ -236,8 +246,9 @@ public class TFIDFcalculator {
     public LinkedList<Pair<String,Double>>[] calcularTF(LinkedList<String>[] docsList, LinkedList<String> consulta){
 	//Conversion de cada lista del docsList a una listOcurrencias.
 	LinkedList<Pair<String, Integer>>[] docsListOcurrencias = new LinkedList[docsList.length];
+	LinkedList<Pair<String, Integer>> listOcurr = null;
 	for(int i = 0; i < docsList.length; i++){
-	    LinkedList<Pair<String, Integer>> listOcurr = listOcurrencias(docsList[i]);
+	    listOcurr = listOcurrencias(docsList[i]);
 	    docsListOcurrencias[i] = listOcurr;
 	}
 	//Arreglo de listas que devolveremos con los valores TF de cada palabra de la consulta ya con listas.
@@ -265,6 +276,9 @@ public class TFIDFcalculator {
 	    word = (String)iterador.next();
 	    //Obtener el TF para cada documento de cada palabra de la consulta.
 	    for(int k = 0; k < docsListOcurrencias.length; k++){
+		if(docsListOcurrencias[i].isEmpty){
+		    continue;
+		}
 		//Iterador para la lista del elemento k de docsListOcurrencias.
 		Iterator it = docsListOcurrencias[k].iterador();
 		//Mientras haya elementos en la lista docsListOcurrencias[k].
@@ -319,8 +333,12 @@ public class TFIDFcalculator {
 	double tfIdfValue = 0.0;
 	//Para cada palabra en cada documento hacer el calculo TF-IDF.
 	for(int i = 0; i < tf.length; i++){
-	    iterador = tf[i].iterador();
 	    tfIdfList = new LinkedList<Pair<String, Double>>();
+	    if(tf[i].isEmpty()){
+		devolver[i] = tfIdfList;
+		continue;
+	    }
+	    iterador = tf[i].iterador();
 	    while(iterador.hasNext()){
 		pareja = (Pair<String, Double>)iterador.next();
 		word = pareja.getValue();
@@ -333,16 +351,19 @@ public class TFIDFcalculator {
 	}
 	return devolver;
     }
-    
-    public double[] similitud(LinkedList<Pair<String, Double>>[] tfIdf, LinkedList<Pair<String, Double>>[] tfIdfConsulta){
-	if(tfIdf.length == 0 || tfIdfConsulta.length == 0)
-	    return null;
-	else if(tfIdf.length != tfIdfConsulta.length)
-	    return null;
-	    
-	
+
+    /**
+     * Metodo para verificar la similitud entre una consulta y un conjunto de
+     * archivos.
+     * @param tfIdf - Los valores tfIdf de cada palabra de todos los documentos.
+     * @param tfIdfConsulta - Los valores tfIdf de cada palabra de la consulta con 
+     * respecto a todos los documentos.
+     * @return Pair<Integer, Double>[] - con el numero del documento y su similitud
+     * con la busqueda.
+     */
+    public Pair<Integer, Double>[] similitud(LinkedList<Pair<String, Double>>[] tfIdf, LinkedList<Pair<String, Double>>[] tfIdfConsulta){
 	//Arreglo que devolveremos
-	double[] arr = new double[tfIdf.length];
+	Pair<Integer, Double>[] arr = new Pair[tfIdf.length];
 	
 	/*Calculo de la similitud entre la consulta y los documentos.*/
 	//Suma de los tfIdfConsulta.
@@ -353,6 +374,8 @@ public class TFIDFcalculator {
 	double squareRoot = 0.0;
 	double resultado = 0.0;
 	Pair<String, Double> pareja = null;
+	Pair<Integer, Double> pareja2 = null;
+	//Inicio del calculo.
 	for(int k = 0; k < tfIdfConsulta.length; k++){
 	    //Suma para tfIdfConsulta
 	    sum = 0.0;
@@ -377,12 +400,13 @@ public class TFIDFcalculator {
 	    resultado = sum / squareRoot;
 
 	    //Añadir el resultado a la posicion k.
-	    arr[k] = resultado;
+	    pareja2 = new Pair<Integer, Double>(k, resultado);
+	    arr[k] = pareja2;
 	}
-	Arrays.sort(arr);
 	return arr;
     }
-    
+
+    /*
     public static void main(String[] args){
 	Reader read = new Reader();
 	TFIDFcalculator aux = new TFIDFcalculator();
@@ -456,6 +480,6 @@ public class TFIDFcalculator {
 	    tfIdf[i].show();
 	    System.out.println("Fin de la lista " + i);
 	}
-	System.out.println();
-    }
+	System.out.println();    
+    }*/
 }

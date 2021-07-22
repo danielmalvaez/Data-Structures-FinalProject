@@ -23,7 +23,7 @@ public class Reader{
      * String para despues pasarlo a una lista simplemente ligada y posteriormente
      * regresarla con cada palabra en la lista.
      * @param File - Un archivo con extensión .txt.
-     * @return LinkedList<Pair<String, Boolean>> - Una lista ligada con cada palabra del texto en un nodo.
+     * @return LinkedList<String> - Una lista ligada con cada palabra del texto en un nodo.
      */
     public LinkedList<String> readDocument(File file){
 	FileReader reader = null;
@@ -78,5 +78,35 @@ public class Reader{
 	}
 	return fileList;
     }//Method readDocument
+
+    /**
+     * Metodo que utiliza como parametro un string y lo convierte en una lista 
+     * simplemente ligada.
+     * @param busqueda - Un String con la busqueda a realizar.
+     * @return LinkedList<String> - Una lista ligada con cada palabra del texto en un nodo.
+     */
+    public LinkedList<String> readString(String busqueda){
+	String busquedaDepured = "";
+	char letter = ' ';
+	//Verificar que la busqueda no tenga caracteres invalidos.
+	for(int i = 0; i < busqueda.length(); i++){
+	    letter = busqueda.charAt(i);
+	    if(!Character.isLetter(letter)){
+		busquedaDepured = busquedaDepured + " ";
+		continue;
+	    }
+	    busquedaDepured = busquedaDepured + letter;
+	}
+	
+	busquedaDepured = Normalizer.normalize(busquedaDepured.toLowerCase(), Normalizer.Form.NFD);
+	String noAccents = busquedaDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+	Scanner io = new Scanner(noAccents).useDelimiter("\\s*\\s");
+	LinkedList<String> fileList = new LinkedList<>();
+	
+	while(io.hasNext()){
+	    fileList.add(fileList.size(), io.next());
+	}
+	return fileList;
+    }//Method readString
 
 }//Class
