@@ -57,6 +57,10 @@ public class Reader{
 	    }
 	}
 
+	/*
+	 * Modificar esta parte para que sea más eficiente.
+	 */
+
 	String documentDepured = "";
 	char letter = ' ';
 	for(int i = 0; i < document.length(); i++){

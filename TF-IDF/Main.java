@@ -24,6 +24,7 @@ public class Main{
 	Auxiliar aux = new Auxiliar();
 	Reader reader = new Reader();
 	TFIDFcalculator calculator = new TFIDFcalculator();
+	Text io = new Text();
 
 	/**Clase abstracta que nos permite definir el metodo de la
 	 la interface FileFilter*/
@@ -85,7 +86,7 @@ public class Main{
 	    int hacer = -1;
 	    while(!inputValida){
 		try{
-		    System.out.print("Input: ");
+		    System.out.print("\nInput: ");
 		    hacer = sc.nextInt();
 		    sc.nextLine();
 		    if (hacer >= 1 && hacer <= 3){
@@ -95,6 +96,7 @@ public class Main{
 			continue;
 		    }
 		}catch(Exception e){
+		    sc.nextLine();
 		    System.out.println("Entrada incorrecta, intenta de nuevo.");
 		}
 	    }
@@ -114,6 +116,8 @@ public class Main{
 		    System.out.print("\nBusqueda: ");
 		    search = sc.nextLine();
 		    if(search.length() < 200){
+			String recuperar = "";
+			io.writeString(search);
 			busqueda = reader.readString(search);
 			if(busqueda.size() == 0){
 			    System.out.println("Busqueda invalida.");
@@ -154,7 +158,11 @@ public class Main{
 		}
 		break;
 	    case 2:
-		LinkedList<String> fileList = new LinkedList<>();
+		System.out.println("\n---------------------");
+		System.out.println("HISTORIAL DE BUSQUEDA");
+		System.out.println("---------------------");
+		String historial = io.readString("HistorialDeBusqueda.txt");
+		System.out.println(historial);
 		break;
 	    case 3:
 		System.out.println("Hasta luego...");
