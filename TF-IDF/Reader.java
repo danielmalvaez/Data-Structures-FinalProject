@@ -60,8 +60,9 @@ public class Reader{
 	/*
 	 * Modificar esta parte para que sea más eficiente.
 	 */
-
-	String documentDepured = "";
+	
+	String documentDepured = document.replaceAll("\W^\\s*", "");
+	/*
 	char letter = ' ';
 	for(int i = 0; i < document.length(); i++){
 	    letter = document.charAt(i);
@@ -70,11 +71,11 @@ public class Reader{
 		continue;
 	    }
 	    documentDepured = documentDepured + letter;
-	}
+	    }*/
 	
 	documentDepured = Normalizer.normalize(documentDepured.toLowerCase(), Normalizer.Form.NFD);
 	String noAccents = documentDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-	Scanner io = new Scanner(noAccents).useDelimiter("\\s*\\s");
+	Scanner io = new Scanner(documentDepured).useDelimiter("\\s*\\s");
 	LinkedList<String> fileList = new LinkedList<>();
 	
 	while(io.hasNext()){
