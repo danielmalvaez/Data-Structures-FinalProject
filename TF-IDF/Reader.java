@@ -11,17 +11,17 @@ import java.io.File;
 import java.text.Normalizer;
 
 /**
- * Clase que nos ayudara a leer documentos con extension .txt  y los almacenara
+ * Clase que nos ayudara a leer documentos con extension .txt  y los almacenará
  * en una lista.
  * @author Axel Daniel Malvaez Flores
  * @version 1.0
  */
 public class Reader{
-
+    
     /**
      * Metodo que utiliza como parametro un file de extension .txt y lo guarda en un
      * String para despues pasarlo a una lista simplemente ligada y posteriormente
-     * regresarla con cada palabra en la lista.
+     * regresarla con cada palabra en un nodo de la lista.
      * @param File - Un archivo con extensión .txt.
      * @return LinkedList<String> - Una lista ligada con cada palabra del texto en un nodo.
      */
@@ -57,13 +57,12 @@ public class Reader{
 	    }
 	}
 
-	/*
-	 * Modificar esta parte para que sea más eficiente.
-	 */
+	/* Modificar esta parte para que sea más eficiente. */
 	
-	String documentDepured = document.replaceAll("\W^\\s*", "");
-	/*
+	//String documentDepured = document.replaceAll("\W^\\s*", "");
+	String documentDepured = "";
 	char letter = ' ';
+	//Verificar si es letra o no.
 	for(int i = 0; i < document.length(); i++){
 	    letter = document.charAt(i);
 	    if(!Character.isLetter(letter)){
@@ -71,7 +70,7 @@ public class Reader{
 		continue;
 	    }
 	    documentDepured = documentDepured + letter;
-	    }*/
+	}
 	
 	documentDepured = Normalizer.normalize(documentDepured.toLowerCase(), Normalizer.Form.NFD);
 	String noAccents = documentDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");

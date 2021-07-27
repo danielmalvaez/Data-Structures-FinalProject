@@ -72,6 +72,10 @@ public class Main{
 	/** Menu para interactuar con el motor de busqueda, se encuentran las
 	 siguientes opciones: buscar, historial, salir del programa.*/
 	boolean terminarPrograma = false;
+
+	// Implementacion del cache como una LinkedList.
+	LinkedList<Pair<LinkedList<String>, LinkedList<String>>> cache = new LinkedList<>();
+	
 	while(!terminarPrograma){
 	    System.out.println("\n\n------------");
 	    System.out.println("    MENU");
@@ -105,55 +109,133 @@ public class Main{
 	     o bien salir del programa.*/
 	    switch(hacer){
 	    case 1:
-		//Variables y objetos de ayuda.
+		//Variable para salir del while
 		boolean validLength = false;
+		//variable para la busqueda en String.
 		String search = null;
+		//Busqueda vista como una lista.
 		LinkedList<String> busqueda = null;
+		//Arbol para el IDF de la busqueda.
 		RedBlackTree<Double, String> treeIDFBusqueda = null;
+		//Arreglo para el TF de la busqueda.
 		LinkedList<Pair<String,Double>>[] arrTFBusqueda = null;
+		//Arreglo para el TF-IDF de la busqueda.
 		LinkedList<Pair<String, Double>>[] arrTFIDFBusqueda = null;
+		//Similitud de la busqueda.
+		Pair<Integer, Double>[] similitud = null;
+		//Documentos mas relevantes para la busqueda.
+		LinkedList<String> docsRelevantes = null;
+
+		//Algoritmo para la busqueda.
 		while(!validLength){
 		    System.out.print("\nBusqueda: ");
 		    search = sc.nextLine();
+		    //Verificar si la longitud es menor a 200.
 		    if(search.length() < 200){
-			String recuperar = "";
 			io.writeString(search);
 			busqueda = reader.readString(search);
+			//Verificar si la longitud es 0
 			if(busqueda.size() == 0){
 			    System.out.println("Busqueda invalida.");
 			    continue;
 			}
+			//Buscar en el cache
+			if(!cache.isEmpty()){
+			    //Pareja auxiliar.
+			    Pair<LinkedList<String>, LinkedList<String>> pareja = null;
+			    //Iterador para recorrer el cache.
+			    Iterator iteradorCache = cache.iterador();
+			    //Verificar si son iguales.
+			    boolean iguales = true;
+			    //Mientras el cache tenga siguiente.
+			    while(iteradorCache.hasNext()){
+				pareja = (Pair<LinkedList<String>, LinkedList<String>>)iteradorCache.next();
+				LinkedList<String> guardada = pareja.getValue();
+				/*Si el tamaño de las listas no coincide sabemos que no es
+				 * la misma busqueda. */
+				if(guardada.size() != busqueda.size()){
+				    continue;
+				}
+				
+				Iterator iteradorGuardada = guardada.iterador();
+				Iterator iteradorBusqueda = busqueda.iterador();
+
+				while(iteradorGuardada.hasNext()){
+				    String guar = (String)iteradorGuardada.next();
+				    String bus = (String)iteradorBusqueda.next();
+				    if(!guar.equals(bus)){
+					iguales = false;
+					break;
+				    }
+				}
+				//Si son iguales imprimir
+				if(iguales == true){
+				    LinkedList<String> simi = pareja.getKey();
+				    //Imprimir los documentos relevantes.
+				    if(simi.isEmpty()){
+					System.out.println("Ningun documento es relevante para su busqueda.");
+				    }else{
+					Iterator iteradorSimi = simi.iterador();
+					while(iteradorSimi.hasNext()){
+					    String documentName = (String)iteradorSimi.next();
+					    System.out.println("Document name: " + documentName);
+					}
+				    }
+				    validLength = true;
+				    break;
+				}
+			    }//While iterador cache.
+			    //If para cerrar el while y ya no hacer calculos.
+			    if(iguales){
+				System.out.println("Utiliza cache...");
+				break;
+			    }
+			}
+			
+			//Si no esta en cache, hacer los calculos de la busqueda.
 			System.out.println("\nBuscando...");
 			treeIDFBusqueda = calculator.calcularIDF(stringList, busqueda);
 			arrTFBusqueda = calculator.calcularTF(stringList, busqueda);
 			arrTFIDFBusqueda = calculator.calcularTFIDF(arrTFBusqueda, treeIDFBusqueda);
+
+			//Calcular la similitud de los documentos y la busqueda.
+			similitud = calculator.similitud(arrTFIDF, arrTFIDFBusqueda);
+			aux.insertionParejas(similitud);
+		
+			//Documentos mas relevantes para la busqueda..
+			docsRelevantes = new LinkedList<String>();
+			int indice = -1;
+			for(int i = 0; i < 10; i++){
+			    if(i < similitud.length){
+				if(similitud[i].getKey() == 0.0)
+				    continue;
+				indice = similitud[i].getValue();
+				docsRelevantes.add(docsRelevantes.size(), arrDocs[indice].getName());
+			    }
+			}
+
+			// Añadir la busqueda y sus resultados al cache.
+			if(cache.size() == 10){
+			    cache.remove(0);
+			    cache.add(cache.size(), new Pair<LinkedList<String>, LinkedList<String>>(busqueda, docsRelevantes));
+			}else if(cache.size() < 10){
+			    cache.add(cache.size(), new Pair<LinkedList<String>, LinkedList<String>>(busqueda, docsRelevantes));
+			}
+
+			//Imprimir los documentos relevantes.
+			if(docsRelevantes.isEmpty()){
+			    System.out.println("Ningun documento es relevante para su busqueda.");
+			}else{
+			    Iterator iterador = docsRelevantes.iterador();
+			    while(iterador.hasNext()){
+				String docName = (String)iterador.next();
+				System.out.println("Document name: " + docName);
+			    }
+			}
+			//Salir del while.
 			validLength = true;
 		    }else{
 			System.out.println("Busqueda invalida, rebasa el rango permitido.");
-		    }
-		}
-		//Calcular la similitud de los documentos y la busqueda.
-		Pair<Integer, Double>[] similitud = calculator.similitud(arrTFIDF, arrTFIDFBusqueda);
-		aux.insertionParejas(similitud);
-		//Documentos mas reelevantes para la busqueda..
-		LinkedList<String> docsRelevantes = new LinkedList<String>();
-		int indice = -1;
-		for(int i = 0; i < 10; i++){
-		    if(i < similitud.length){
-			if(similitud[i].getKey() == 0.0)
-			    continue;
-			indice = similitud[i].getValue();
-			docsRelevantes.add(docsRelevantes.size(), arrDocs[indice].getName());
-		    }
-		}
-
-		if(docsRelevantes.isEmpty()){
-		    System.out.println("Ningun documento es relevante para su busqueda.");
-		}else{
-		    Iterator iterador = docsRelevantes.iterador();
-		    while(iterador.hasNext()){
-			String docName = (String)iterador.next();
-			System.out.println("Document name: " + docName);
 		    }
 		}
 		break;
