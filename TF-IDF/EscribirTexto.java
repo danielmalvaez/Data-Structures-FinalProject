@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
  * @author Axel Daniel Malváez Flores.
  * @version 1.0.
  */
-public class Text{
+public class EscribirTexto{
     /**
      * Metodo que nos permite escribir un String en un documento con extension txt.
      * @param historial - El string que queremos escribir en un archivo txt.

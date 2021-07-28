@@ -15,7 +15,7 @@ import java.util.Iterator;
  * @author Axel Daniel Malvaez Flores
  * @version 1.0
  */
-public class Main{
+public class MotorBusqueda{
     public static void main(String[] args){
 
 	/** Creacion de objetos que necesitaremos para la obtencion de
@@ -154,6 +154,7 @@ public class Main{
 				/*Si el tamaño de las listas no coincide sabemos que no es
 				 * la misma busqueda. */
 				if(guardada.size() != busqueda.size()){
+				    iguales = false;
 				    continue;
 				}
 				
@@ -161,6 +162,7 @@ public class Main{
 				Iterator iteradorBusqueda = busqueda.iterador();
 
 				while(iteradorGuardada.hasNext()){
+				    iguales = true;
 				    String guar = (String)iteradorGuardada.next();
 				    String bus = (String)iteradorBusqueda.next();
 				    if(!guar.equals(bus)){
@@ -190,7 +192,7 @@ public class Main{
 				System.out.println("Utiliza cache...");
 				break;
 			    }
-			}
+			}//Termina de buscar en el cache.
 			
 			//Si no esta en cache, hacer los calculos de la busqueda.
 			System.out.println("\nBuscando...");

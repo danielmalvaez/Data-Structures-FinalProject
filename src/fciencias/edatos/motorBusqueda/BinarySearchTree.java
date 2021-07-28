@@ -371,27 +371,4 @@ public class BinarySearchTree<K extends Comparable, T> implements TDABinarySearc
 	    hd.left = actual;
 	}
     }
-    
-    public static void main(String[] args){
-	BinarySearchTree<Double, String> arbol1 = new BinarySearchTree<>();
-
-	arbol1.insert("do", 2.0);
-	arbol1.insert("you", 5.0);
-	arbol1.insert("quarrel", 3.0);
-	arbol1.insert("sir", 4.0);
-	arbol1.insert("am", 1.0);
-	
-	System.out.println("Arbol1 preorden:");
-	arbol1.preorden();
-
-	System.out.println();
-	arbol1.rotarIzquierda(arbol1.root);
-
-	System.out.println("Arbol1 preorden:");
-	arbol1.preorden();
-
-	System.out.println();
-	
-	
-    }
 }

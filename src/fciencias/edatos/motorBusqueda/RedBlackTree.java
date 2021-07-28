@@ -437,30 +437,4 @@ public class RedBlackTree<T, K extends Comparable> implements TDARedBlackTree<K,
 	postordenAux(actual.right);
 	System.out.println(actual.element);
     }
-    /*
-    public static void main(String[] args) {
-	RedBlackTree<Double, String> arbol1 = new RedBlackTree<>();
-	arbol1.insert("do", 2.0);
-	arbol1.insert("you", 5.0);
-	arbol1.insert("quarrel", 3.0);
-	arbol1.insert("sir", 4.0);
-	arbol1.insert("am", 1.0);
-	
-	System.out.println("Arbol1 preorden:");
-	arbol1.preorden();
-
-	System.out.println();
-
-	System.out.println("Arbol1 inorden:");
-	arbol1.inorden();
-
-	System.out.println();
-
-	System.out.println("Arbol1 postorden:");
-	arbol1.postorden();
-
-	System.out.println("Elemento con la clave:" + 2.0);
-	System.out.println(arbol1.retrieve(4.0));	
-    }
-    */
 }

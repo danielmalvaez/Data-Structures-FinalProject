@@ -27,18 +27,18 @@ Contiene los siguientes comandos:
     <antcall target="build" />
     <mkdir dir="build/jar" />
     <!-- TODO cambiar el nombre del JAR -->
-    <jar destfile="build/jar/PrimerEjemplo.jar" basedir="build/classes" >
+    <jar destfile="build/jar/Proyecto.jar" basedir="build/classes" >
       <manifest >
 	<attribute name="DependencyFinder" value="main" />
 	<!-- TODO SET MAIN CLASS -->
-	<attribute name="Main-Class" value="fciencias.edatos.primerEjemplo.ClasePrincipal" />
+	<attribute name="Main-Class" value="fciencias.edatos.motorBusqueda.MotorBusqueda" />
       </manifest >
     </jar >
   </target>
 
   <target name="run" >
     <!-- TODO usar el nombre del JAR que será generado -->
-    <java jar="build/jar/PrimerEjemplo.jar" fork="true" >
+    <java jar="build/jar/Proyecto.jar" fork="true" >
     </java>
   </target >
 

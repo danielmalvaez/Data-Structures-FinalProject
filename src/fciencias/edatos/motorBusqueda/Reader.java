@@ -14,7 +14,7 @@ import java.text.Normalizer;
  * Clase que nos ayudara a leer documentos con extension .txt  y los almacenará
  * en una lista.
  * @author Axel Daniel Malvaez Flores
- * @version 1.0
+ * @version 2.0
  */
 public class Reader{
     
@@ -56,27 +56,13 @@ public class Reader{
 		System.out.println("No hay ningun archivo abierto");
 	    }
 	}
-
-	/* Modificar esta parte para que sea más eficiente. */
 	
-	//String documentDepured = document.replaceAll("\W^\\s*", "");
-	String documentDepured = "";
-	char letter = ' ';
-	//Verificar si es letra o no.
-	for(int i = 0; i < document.length(); i++){
-	    letter = document.charAt(i);
-	    if(!Character.isLetter(letter)){
-		documentDepured = documentDepured + " ";
-		continue;
-	    }
-	    documentDepured = documentDepured + letter;
-	}
+	//Normalize the String.
+	document = Normalizer.normalize(document.toLowerCase(), Normalizer.Form.NFD);
+	String documentDepured = document.replaceAll("[^a-z\\s*]", "");
 	
-	documentDepured = Normalizer.normalize(documentDepured.toLowerCase(), Normalizer.Form.NFD);
-	String noAccents = documentDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 	Scanner io = new Scanner(documentDepured).useDelimiter("\\s*\\s");
 	LinkedList<String> fileList = new LinkedList<>();
-	
 	while(io.hasNext()){
 	    fileList.add(fileList.size(), io.next());
 	}
@@ -112,5 +98,4 @@ public class Reader{
 	}
 	return fileList;
     }//Method readString
-
 }//Class
