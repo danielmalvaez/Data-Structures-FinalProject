@@ -12,23 +12,25 @@ import java.text.Normalizer;
 
 /**
  * Clase que nos ayudara a leer documentos con extension .txt  y los almacenará
- * en una lista.
- * @author Axel Daniel Malvaez Flores
+ * en un ArrayList de Strings.
+ * @author Axel Daniel Malváez Flores
  * @version 2.0
  */
 public class Reader{
     
     /**
      * Metodo que utiliza como parametro un file de extension .txt y lo guarda en un
-     * String para despues pasarlo a una lista simplemente ligada y posteriormente
-     * regresarla con cada palabra en un nodo de la lista.
-     * @param File - Un archivo con extensión .txt.
-     * @return LinkedList<String> - Una lista ligada con cada palabra del texto en un nodo.
+     * String para despues pasarlo a un ArrayList y posteriormente regresarla con 
+     * cada palabra en una casilla de la lista.
+     * @param File - Un archivo con extensión .txt ya convertido en File.
+     * @return ArrayList<String> - Una lista ligada con cada palabra del texto en 
+     * un nodo.
      */
-    public LinkedList<String> readDocument(File file){
+    public ArrayList<String> readDocument(File file){
+	//Creacion de objetod
 	FileReader reader = null;
 	BufferedReader lector = null;
-	
+	//Variables auxiliares para recuperar el texto.
 	String line = "";
 	String document = "";
 	try{
@@ -57,14 +59,14 @@ public class Reader{
 	    }
 	}
 	
-	//Normalize the String.
+	//Normalizar el String.
 	document = Normalizer.normalize(document.toLowerCase(), Normalizer.Form.NFD);
 	String documentDepured = document.replaceAll("[^a-z\\s*]", "");
 	
 	Scanner io = new Scanner(documentDepured).useDelimiter("\\s*\\s");
-	LinkedList<String> fileList = new LinkedList<>();
+	ArrayList<String> fileList = new ArrayList<>();
 	while(io.hasNext()){
-	    fileList.add(fileList.size(), io.next());
+	    fileList.add(io.next());
 	}
 	return fileList;
     }//Method readDocument
@@ -73,28 +75,17 @@ public class Reader{
      * Metodo que utiliza como parametro un string y lo convierte en una lista 
      * simplemente ligada.
      * @param busqueda - Un String con la busqueda a realizar.
-     * @return LinkedList<String> - Una lista ligada con cada palabra del texto en un nodo.
+     * @return ArrayList<String> - Una lista ligada con cada palabra del texto en un nodo.
      */
-    public LinkedList<String> readString(String busqueda){
-	String busquedaDepured = "";
-	char letter = ' ';
-	//Verificar que la busqueda no tenga caracteres invalidos.
-	for(int i = 0; i < busqueda.length(); i++){
-	    letter = busqueda.charAt(i);
-	    if(!Character.isLetter(letter)){
-		busquedaDepured = busquedaDepured + " ";
-		continue;
-	    }
-	    busquedaDepured = busquedaDepured + letter;
-	}
+    public ArrayList<String> readString(String busqueda){
+	//Normalizar la busqueda.
+	busqueda = Normalizer.normalize(busqueda.toLowerCase(), Normalizer.Form.NFD);
+	String busquedaDepured = busqueda.replaceAll("[^a-z\\s*]", "");
 	
-	busquedaDepured = Normalizer.normalize(busquedaDepured.toLowerCase(), Normalizer.Form.NFD);
-	String noAccents = busquedaDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-	Scanner io = new Scanner(noAccents).useDelimiter("\\s*\\s");
-	LinkedList<String> fileList = new LinkedList<>();
-	
+	Scanner io = new Scanner(busquedaDepured).useDelimiter("\\s*\\s");
+	ArrayList<String> fileList = new ArrayList<>();
 	while(io.hasNext()){
-	    fileList.add(fileList.size(), io.next());
+	    fileList.add(io.next());
 	}
 	return fileList;
     }//Method readString

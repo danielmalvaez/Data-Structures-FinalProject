@@ -10,7 +10,7 @@ import java.io.IOException;
  * Clase con metodos auxiliares que nos ayudaran en el proyecto y que
  * no tienen una clase definida.
  * @author Axel Daniel Malvaez Flores
- * @version 1.0
+ * @version 2.0
  */
 public class Auxiliar{
 

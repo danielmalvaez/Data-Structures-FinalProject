@@ -83,16 +83,24 @@ public class Main2{
 	System.out.println("HASHTABLE EXAMPLES");
 	System.out.println("-------------------");
 
+	System.out.println(cortoDep);
+
 	Scanner io = new Scanner(cortoDep).useDelimiter("\\s*\\s");
 	LinkedList<String> fileList = new LinkedList<>();
 	ArrayList<String> arrList = new ArrayList<>();
 	while(io.hasNext()){
-	    fileList.add(fileList.size(), io.next());
-	    arrList.add(io.next());
+	    String next = io.next();
+	    fileList.add(fileList.size(), next);
+	    arrList.add(next);
 	}
 
+	//HASH TABLE
+	Hashtable<String, Pair<String, Integer>> ht;
+	
+	//HASH WITH ARRAYLISTS.
 	int size = arrList.size();
-	Hashtable<Integer, Pair<String, Integer>> ht = new Hashtable(size);
+	ht = new Hashtable(size);
+	
 	Pair<String, Integer> parejaAdd = null;
 	Pair<String, Integer> parejaAux = null;
 	
@@ -103,10 +111,31 @@ public class Main2{
 		parejaAdd = new Pair<String, Integer>(key, 1);
 		ht.put(key, parejaAdd);
 	    }else{
-		parejaAux = gt.get(key);
+		parejaAux = ht.get(key);
 		parejaAux.setKey(parejaAux.getKey() + 1);
 		ht.put(key, parejaAux);
 	    }
 	}
-    }
-}
+	System.out.println(ht);
+
+	//HASH WITH LINKEDLISTS.
+	int length = fileList.size();
+	ht = new Hashtable(length);
+	
+	Pair<String, Integer> parejaAdd = null;
+	Pair<String, Integer> parejaAux = null;
+	for(int index = arrList.size()-1; index >=0; index--){
+	    String key = arrList.get(index);
+	    parejaAux = ht.get(key);
+	    if(ht.get(key) == null){
+		parejaAdd = new Pair<String, Integer>(key, 1);
+		ht.put(key, parejaAdd);
+	    }else{
+		parejaAux = ht.get(key);
+		parejaAux.setKey(parejaAux.getKey() + 1);
+		ht.put(key, parejaAux);
+	    }
+	}
+	System.out.println(ht);
+    }//Main
+}//Class
