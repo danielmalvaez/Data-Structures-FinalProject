@@ -1,6 +1,5 @@
-//package.
-
-//imports
+//Package.
+package fciencias.edatos.motorBusqueda;
 
 /**
  * Implementación de un arbol binario de búsqueda, utilizando como referencia el

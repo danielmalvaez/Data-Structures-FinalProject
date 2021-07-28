@@ -1,5 +1,5 @@
 //Package
-//package ProyectoFinal;
+package fciencias.edatos.motorBusqueda;
 
 //Imports
 import java.io.File;

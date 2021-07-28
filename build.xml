@@ -27,7 +27,7 @@ Contiene los siguientes comandos:
     <antcall target="build" />
     <mkdir dir="build/jar" />
     <!-- TODO cambiar el nombre del JAR -->
-    <jar destfile="build/jar/Proyecto.jar" basedir="build/classes" >
+    <jar destfile="build/jar/DMotorBusqueda.jar" basedir="build/classes" >
       <manifest >
 	<attribute name="DependencyFinder" value="main" />
 	<!-- TODO SET MAIN CLASS -->
@@ -38,7 +38,7 @@ Contiene los siguientes comandos:
 
   <target name="run" >
     <!-- TODO usar el nombre del JAR que será generado -->
-    <java jar="build/jar/Proyecto.jar" fork="true" >
+    <java jar="build/jar/DMotorBusqueda.jar" fork="true" >
     </java>
   </target >
 

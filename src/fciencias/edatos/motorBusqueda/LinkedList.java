@@ -1,4 +1,5 @@
-//package FinalProject.TF-IDF;
+//Package
+package fciencias.edatos.motorBusqueda;
 
 //Imports
 import java.util.Iterator;

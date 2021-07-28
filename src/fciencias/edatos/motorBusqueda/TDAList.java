@@ -1,4 +1,5 @@
-//package FinalProject.TF-IDF;
+//Package
+package fciencias.edatos.motorBusqueda;
 
 /**
 * TDA para listas.

@@ -1,4 +1,5 @@
-//package FinalProject.TF-IDF;
+//Package
+package fciencias.edatos.motorBusqueda;
 
 /**
  * Implementación de una Pareja basada en la clase Pair de JAVA. Estilo diccionario.

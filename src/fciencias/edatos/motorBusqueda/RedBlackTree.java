@@ -1,4 +1,5 @@
 //Package
+package fciencias.edatos.motorBusqueda;
 
 /**
  * Implementación de un árbol rojinegro.

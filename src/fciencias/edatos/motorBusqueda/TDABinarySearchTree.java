@@ -1,4 +1,5 @@
-//package fciencias.edatos.binarySearchTree;
+//Package
+package fciencias.edatos.motorBusqueda;
 
 /**
  * Interfaz que define las operaciones sobre un arbol

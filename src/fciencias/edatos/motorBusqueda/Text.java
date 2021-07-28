@@ -1,4 +1,5 @@
 //Package
+package fciencias.edatos.motorBusqueda;
 
 //Imports
 import java.io.*;
