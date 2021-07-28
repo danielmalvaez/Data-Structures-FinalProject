@@ -37,24 +37,32 @@ public class MotorBusqueda{
 	/** Menu de busqueda, aqui es donde pide como entrada una ruta
 	    valida.*/
 	System.out.println("-----------------------------");
-	System.out.println("         MALVIOGLE");
+	System.out.println("      MOTOR DE BUSQUEDA");
+	System.out.println("        (mini google)");
 	System.out.println("-----------------------------\n");
 
 	boolean validPath = false;
-	File[] arrDocs = null;
+	//Array donde guardaremos los files obtenidos de la ruta.
+	File[] arrDocs = null;	
+	//Mientras la ruta no sea valida se volvera a pedir una.
 	while(!validPath){
 	    try{
-		System.out.println("Buscar en ... (e.g. /Users/dan/docs/):");
+		System.out.printl("Buscar en ... (e.g. /Users/dan/docs/): ");
 		String pathName = sc.nextLine().trim();
+		sc.nextLine();
 
-		//Animacion para simular la barra de porcentage de carga.
-		File dir = aux.animationProgressBar(pathName);
-
+		//Cargar los archivos guardados en el pathName.
+		File dir = new File(pathName);
+		
 		//Guardar los documentos en un arreglo de tipo File.
 		arrDocs = dir.listFiles(filter);
 		if(arrDocs.length == 0){
 		    System.out.println("\nNo hay archivos .txt en esta ruta.\n");
 		    continue;
+		}else if(arrDocs.length > 0){
+		    //Progreso de carga de archivos.
+		    aux = aux.progressBar(arrDocs, pathName);
+		    System.out.println();
 		}
 		validPath = true;
 	    }catch(Exception e){
@@ -63,9 +71,18 @@ public class MotorBusqueda{
 	} //While validPath
 
 	System.out.println("\nProcesando Archivos...");
-	LinkedList<String>[] stringList = aux.animationProgressBar(arrDocs);
+	//Convertirlos a ArrayLists.
+	ArrayList<String>[] stringList = aux.progressBar(arrDocs);
+
+	/**
+	 * HASTA AQUI TODO VA BIEEEENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+	 */
+	
+	//Calcular su IDF
 	RedBlackTree<Double, String> treeIDF = aux.animationProgressBarIDF(stringList);
+	//Calcular su TF
 	LinkedList<Pair<String,Double>>[] arrTF = aux.animationProgressBar(stringList);
+	//Calcular su TFIDF
 	LinkedList<Pair<String,Double>>[] arrTFIDF = aux.animationProgressBar(arrTF, treeIDF);
 	System.out.println("\nArchivos cargados con exito!");
 

@@ -5,6 +5,7 @@
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Clase con metodos auxiliares que nos ayudaran en el proyecto y que
@@ -15,55 +16,40 @@ import java.io.IOException;
 public class Auxiliar{
 
     /**
-     * Metodo auxiliar para la Progress Bar.
+     * Metodo auxiliar para la Progress Bar en la carga de archivos..
      * @param pathName una ruta dada como input.
-     * @return Objeto de tipo File
      */
-    public File animationProgressBar(String pathName){
-	File dir2 = new File("example");
-	File dir = null;
+    public void progressBar(File[] arr, String pathName){
 	try{
-	    String anim= "|/-\\";
-	    for (int x =0 ; x <= 100 ; x++){
-		String data = "\r" + anim.charAt(x % anim.length()) + " " + x + "%";
+	    for (int x =0 ; x <= arr.length ; x++){
+		String data = "\r" + "Archivos cargados..." + " " + x;
 		System.out.write(data.getBytes());
-		/** Declaracion del directorio a buscar pasado como input*/
-		if(x == 98)
-		    dir = new File(pathName);
 		Thread.sleep(30);
 	    }
 	}catch(Exception e){
 	}
-	return dir;
     }
 
     /**
      * Metodo Auxiliar para la Progress Bar en el calculo del TF-IDF de todos los
      * documentos de un arreglo de Files.
      * @param arrDocs - Arreglo con todos los documentos txt ya convertidos en File.
-     * @return LinkedList<String> - Un arreglo con los documentos vistos como una 
-     * LinkedList.
+     * @return ArrayList<String> - Un arreglo con los documentos vistos como una 
+     * ArrayList.
      */
-    public LinkedList<String>[] animationProgressBar(File[] arrDocs){
+    public ArrayList<String>[] progressBar(File[] arrDocs){
 	//Arreglo en donde se guardaran los documentos.
-	LinkedList<String>[] docsList = new LinkedList[arrDocs.length];
-	//Lista Auxiliar de recuperacion de una LinkedList.
-	LinkedList<String> auxList = null;
+	ArrayList<String>[] docsList = new ArrayList[arrDocs.length];
+	//Lista Auxiliar de recuperacion de un ArrayList.
+	ArrayList<String> auxList = null;
 	//Lector
 	Reader reader = new Reader();
 	try{
-	    String anim= "|/-\\";
-	    for (int x =0 ; x <= 100 ; x++){
-		String data = "\r" + anim.charAt(x % anim.length()) + " " + x + "%";
+	    for (int x = 0; x <= arrDocs.length; x++){
+		String data = "\r" + "Archivos cargados..." + " " + x;
 		System.out.write(data.getBytes());
-		//Condicion para empezar a leer los documentos.
-		if(x == 70){
-		    //Lectura de todos los documentos.
-		    for(int i = 0; i < arrDocs.length; i++){
-			auxList = reader.readDocument(arrDocs[i]);
-			docsList[i] = auxList;
-		    }
-		}
+		auxList = reader.readDocument(arrDocs[x]);
+		docsList[x] = auxList;
 		Thread.sleep(30);
 	    }
 	}catch(Exception e){

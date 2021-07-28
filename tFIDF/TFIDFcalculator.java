@@ -7,29 +7,30 @@ import java.lang.Math.*;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 
 /**
  * Clase donde haremos los calculos respectivos para el TF e IDF de una
  * palabra y un documento.
  * @author Axel Daniel Malvaez Flores
- * @version 1.0
+ * @version 2.0
  */
 public class TFIDFcalculator {
 
     /**
      * Método que nos devuelve una lista de un documento, en una lista de parejas de
      * String y Boolean, inicializadas todas en false.
-     * @param list - Una lista simplemente ligada de tipo String
-     * @return LinkedList<Pair<String, Boolean>> - Una lista simplemente ligada de tipo Pair<String, Boolean>.
+     * @param list - Una ArrayList de tipo String.
+     * @return ArrayList<Pair<String, Boolean>> - Un ArrayList de tipo Pair<String, Boolean>.
      */
-    public static LinkedList<Pair<String, Boolean>> listToFalse(LinkedList<String> list){
+    private static ArrayList<Pair<String, Boolean>> listToFalse(ArrayList<String> list){
 	if(list.isEmpty())
-	    return new LinkedList<Pair<String, Boolean>>();
+	    return new ArrayList<Pair<String, Boolean>>();
 	//Lista que devolveremos
-	LinkedList<Pair<String, Boolean>> fileList = new LinkedList<>();
+	ArrayList<Pair<String, Boolean>> fileList = new ArrayList<>();
 	//Iterador de una lista.
-	Iterator iterador = list.iterador();
+	Iterator<String> iterador = list.iterator();
 	String word = "";
 	while(iterador.hasNext()){
 	    Pair<String, Boolean> pair = new Pair<String, Boolean>((String)iterador.next(), false);
@@ -38,21 +39,24 @@ public class TFIDFcalculator {
 	return fileList;
     }
 
+
+    // MODIFICAAAAAAAAAAR EN ADELANTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe
+    
     /**
      * Metodo que nos devuelve una lista con elementos de tipo Pair<String, Integer>
      * utilizando la lista pasada como método.
-     * @param list - Una lista simplemente ligada de tipo Pair<String, Boolean>.
-     * @return LinkedList<Pair<String, Integer>> - Una lista simplemente ligada de tipo Pair<String, Integer>.
+     * @param list - Una ArrayList de tipo String.
+     * @return ArrayList<Pair<String, Integer>> - Una ArrayList de tipo Pair<String, Integer>.
      */
-    public static LinkedList<Pair<String, Integer>> listOcurrencias(LinkedList<String> lista){
+    public static ArrayList<Pair<String, Integer>> listOcurrencias(ArrayList<String> lista){
 	if(lista.isEmpty())
-	    return new LinkedList<Pair<String, Integer>>();
+	    return new ArrayList<Pair<String, Integer>>();
 
 	//Conversion de una lista con simples palabras a una listToFalse.
-	LinkedList<Pair<String, Boolean>> list = listToFalse(lista);
+	ArrayList<Pair<String, Boolean>> list = listToFalse(lista);
 	
-	//Lista de ocurrencias.
-	LinkedList<Pair<String, Integer>> listOcurr = new LinkedList<>();
+	//Lista de ocurrencias y que devolveremos.
+	ArrayList<Pair<String, Integer>> listOcurr = new ArrayList<>();
 	
 	/** Verificar las ocurrencias */
 	//Nuevo objeto para añadir a listOcurr.

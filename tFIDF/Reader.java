@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.io.File;
 import java.text.Normalizer;
+import java.util.ArrayList;
 
 /**
  * Clase que nos ayudara a leer documentos con extension .txt  y los almacenará
@@ -66,7 +67,7 @@ public class Reader{
 	Scanner io = new Scanner(documentDepured).useDelimiter("\\s*\\s");
 	ArrayList<String> fileList = new ArrayList<>();
 	while(io.hasNext()){
-	    fileList.add(io.next());
+	    fileList.add(fileList.size(), io.next());
 	}
 	return fileList;
     }//Method readDocument
@@ -85,7 +86,7 @@ public class Reader{
 	Scanner io = new Scanner(busquedaDepured).useDelimiter("\\s*\\s");
 	ArrayList<String> fileList = new ArrayList<>();
 	while(io.hasNext()){
-	    fileList.add(io.next());
+	    fileList.add(fileList.size(), io.next());
 	}
 	return fileList;
     }//Method readString
