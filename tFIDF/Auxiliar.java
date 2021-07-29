@@ -2,10 +2,8 @@
 //package fciencias.edatos.motorBusqueda;
 
 //Imports
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 /**
  * Clase con metodos auxiliares que nos ayudaran en el proyecto y que
@@ -21,8 +19,8 @@ public class Auxiliar{
      */
     public void progressBar(File[] arr, String pathName){
 	try{
-	    for (int x =0 ; x <= arr.length ; x++){
-		String data = "\r" + "Archivos cargados..." + " " + x;
+	    for (int x =0 ; x < arr.length ; x++){
+		String data = "\r" + "Archivos cargados..." + " " + (x+1);
 		System.out.write(data.getBytes());
 		Thread.sleep(30);
 	    }
@@ -31,8 +29,8 @@ public class Auxiliar{
     }
 
     /**
-     * Metodo Auxiliar para la Progress Bar en el calculo del TF-IDF de todos los
-     * documentos de un arreglo de Files.
+     * Metodo Auxiliar para la Progress Bar en la conversión de los documentos tipo
+     * File a ArrayLists.
      * @param arrDocs - Arreglo con todos los documentos txt ya convertidos en File.
      * @return ArrayList<String> - Un arreglo con los documentos vistos como una 
      * ArrayList.
@@ -45,8 +43,8 @@ public class Auxiliar{
 	//Lector
 	Reader reader = new Reader();
 	try{
-	    for (int x = 0; x <= arrDocs.length; x++){
-		String data = "\r" + "Archivos cargados..." + " " + x;
+	    for (int x = 0; x < arrDocs.length; x++){
+		String data = "\r" + "Archivos cargados..." + " " + (x+1);
 		System.out.write(data.getBytes());
 		auxList = reader.readDocument(arrDocs[x]);
 		docsList[x] = auxList;
@@ -56,59 +54,57 @@ public class Auxiliar{
 	}
 	return docsList;
     }
-
+    
     /**
-     * Metodo Auxiliar para la Progress Bar en el calculo del IDF dado un arreglo de listas.
+     * Método Auxiliar para la Progress Bar en el cálculo del IDF dado un arreglo de listas.
      * @param arrList - Arreglo con todos los documentos txt ya convertidos en listas.
-     * @return RedBlackTree<Double, String> - Un Arbol Rojinegro con los valores IDF de cada
-     * palabra, sin admitir repetidos.
+     * @return Hashtable<String, Pair<String, Double>> - Tabla hash con un String como key y con un
+     * Pair<String, Double> como value.
      */
-    public RedBlackTree<Double, String> animationProgressBarIDF(LinkedList<String>[] arrList){
+    public Hashtable<String, Pair<String, Double>> progressBarIDF(ArrayList<String>[] arrList){
 	//Arbol que devolveremos
-	RedBlackTree<Double, String> arbol = new RedBlackTree<Double, String>();
+	Hashtable<String, Pair<String, Double>> ht = null;
 	//Creacion de un objeto tipo calculator.
 	TFIDFcalculator c = new TFIDFcalculator();
 	//Animacion.
 	try{
-	    String anim= "|/-\\";
-	    for (int x =0 ; x <= 100 ; x++){
-		String data = "\r" + anim.charAt(x % anim.length()) + " " + x + "%";
+	    for (int x =0 ; x < arrList.length ; x++){
+		String data = "\r" + "Archivos cargados..." + " " + (x+1);
 		System.out.write(data.getBytes());
 		//Condicion para empezar el calculo del IDF.
-		if(x == 70){
-		    //Obtener el arbol de IDF's.
-		    arbol = c.calcularIDF(arrList);
+		if(x == arrList.length-1){
+		    //Obtener el hashtable de IDF's.
+		    ht = c.calcularIDF(arrList);
 		}
-		Thread.sleep(20);
+		Thread.sleep(30);
 	    }
 	}catch(Exception e){
 	}
-	return arbol;
+	return ht;
     }
 
     /**
-     * Metodo Auxiliar para la Progress Bar en el calculo del TF dado un arreglo de listas.
+     * Método Auxiliar para la Progress Bar en el cálculo del TF dado un arreglo de listas.
      * @param arrList - Arreglo con todos los documentos txt ya convertidos en listas.
-     * @return LinkedList<Pair<String,Double>>[] - Un areglo de listas con cada palabra de 
+     * @return ArrayList<Pair<String,Double>>[] - Un areglo de listas con cada palabra de 
      * cada documento con su respectivo valor TF.
      */
-    public LinkedList<Pair<String,Double>>[] animationProgressBar(LinkedList<String>[] arrList){
+    public ArrayList<Pair<String,Double>>[] progressBar(ArrayList<String>[] arrList){
 	//Lista que devolveremos
-	LinkedList<Pair<String,Double>>[] listPair = new LinkedList[arrList.length];
+	ArrayList<Pair<String,Double>>[] listPair = new ArrayList[arrList.length];
 	//Creacion de un objeto tipo calculator.
 	TFIDFcalculator c = new TFIDFcalculator();
 	//Animacion.
 	try{
-	    String anim= "|/-\\";
-	    for (int x =0 ; x <= 100 ; x++){
-		String data = "\r" + anim.charAt(x % anim.length()) + " " + x + "%";
+	    for (int x =0 ; x < arrList.length ; x++){
+		String data = "\r" + "Archivos cargados..." + " " + (x+1);
 		System.out.write(data.getBytes());
 		//Condicion para empezar el calculo TF
-		if(x == 70){
+		if(x == arrList.length - 1){
 		    //Obtener el arreglo de TF's.
 		    listPair = c.calcularTF(arrList);
 		}
-		Thread.sleep(20);
+		Thread.sleep(30);
 	    }
 	}catch(Exception e){
 	}
@@ -116,27 +112,29 @@ public class Auxiliar{
     }
 
     /**
-     * Metodo Auxiliar para la Progress Bar en el calculo del TF-IDF dado un arreglo con los 
-     * valores TF y un arbol rojinegro con los valores IDF.
-     * @param arrList - Arreglo con todos los documentos txt ya convertidos en listas.
-     * @return LinkedList<Pair<String,Double>>[] - Un areglo de listas con cada palabra de 
+     * Método Auxiliar para la Progress Bar en el cálculo del TF-IDF dado un arreglo con los 
+     * valores TF para cada lista y un Hashtable con los valores IDF de cada palabra en los documentos.
+     * @param arrTF - Arreglo con los valores TF de cada palabra en cada documento.
+     * @param ht - HashTable con los valores IDF de cada palabra en todos los documentos.
+     * @return ArrayList<Pair<String,Double>>[] - Un areglo de listas con cada palabra de 
      * cada documento con su respectivo valor TF-IDF.
      */
-    public LinkedList<Pair<String,Double>>[] animationProgressBar(LinkedList<Pair<String,Double>>[] arrTF, RedBlackTree<Double, String> treeIDF){
+    public ArrayList<Pair<String,Double>>[] progressBar(ArrayList<Pair<String,Double>>[] arrTF,
+								  Hashtable<String, Pair<String, Double>>
+								  ht){
 	//Lista que devolveremos.
-	LinkedList<Pair<String,Double>>[] listPair = new LinkedList[arrTF.length];
+	ArrayList<Pair<String,Double>>[] listPair = new ArrayList[arrTF.length];
 	//Creacion de un objeto tipo calculator.
 	TFIDFcalculator c = new TFIDFcalculator();
 	//Animacion.
 	try{
-	    String anim= "|/-\\";
-	    for (int x =0 ; x <= 100 ; x++){
-		String data = "\r" + anim.charAt(x % anim.length()) + " " + x + "%";
+	    for (int x =0 ; x < arrTF.length ; x++){
+		String data = "\r" + "Archivos cargados..." + " " + (x+1);
 		System.out.write(data.getBytes());
 		//Condicion para empezar el calculo TF-IDF
-		if(x == 70){
+		if(x == arrTF.length - 1){
 		    //Obtener el arreglo de TF-IDF's
-		    listPair = c.calcularTFIDF(arrTF, treeIDF);
+		    listPair = c.calcularTFIDF(arrTF, ht);
 		}
 		Thread.sleep(20);
 	    }
@@ -144,7 +142,6 @@ public class Auxiliar{
 	}
 	return listPair;
     }
-
 
     /**
      * Funcion que nos permite cambiar de posiciones en un arreglo al hacer algun

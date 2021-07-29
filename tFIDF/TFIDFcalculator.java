@@ -85,8 +85,9 @@ public class TFIDFcalculator {
     }
 
     /**
-     * Método que calcula el IDF de cada palabra dentro de un arreglo que contiene a los documentos
-     * en forma de lista de Strings y nos regresa una HashTable con el IDF de cada palabra.
+     * Método que calcula el IDF de cada palabra dentro de un arreglo que contiene a los 
+     * documentos en forma de lista de Strings y nos regresa una HashTable con el IDF de cada 
+     * palabra.
      * @param docsList - Un arreglo de ArrayList de Strings.
      * @return Hashtable<String, Pair<String, Double>> - Un HashTable con clave String y valores
      * de tipo Pair<String, Double>.
@@ -146,7 +147,8 @@ public class TFIDFcalculator {
      * @return Hashtable<String, Pair<String, Double>> - Un HashTable con clave String y valores
      * de tipo Pair<String, Double>.
      */
-    public Hashtable<String, Pair<String, Double>> calcularIDF(ArrayList<String>[] docsList, ArrayList<String> consulta){
+    public Hashtable<String, Pair<String, Double>> calcularIDF(ArrayList<String>[] docsList,
+							       ArrayList<String> consulta){
 	//Hashtable que devolveremos.
 	Hashtable<String, Pair<String, Double>> ht = new Hashtable<>();
 
@@ -241,10 +243,11 @@ public class TFIDFcalculator {
      * Metodo que calcula el TF de cada palabra de una consulta dada. (Sobreescritura del metodo).
      * @param docsList - Un arreglo de ArrayLists de tipo String.
      * @param consulta - Una consulta vista como un ArrayList.
-     * @return ArrayList<Pair<String,Double>>[] - Arreglo de ArrayLists de tipo Pair<String, Double> con los valores
-     * TF de cada palabra almacenada en el ArrayList consulta.
+     * @return ArrayList<Pair<String,Double>>[] - Arreglo de ArrayLists de tipo Pair<String, Double> 
+     * con los valores TF de cada palabra almacenada en el ArrayList consulta.
      */
-    public ArrayList<Pair<String,Double>>[] calcularTF(ArrayList<String>[] docsList, ArrayList<String> consulta){
+    public ArrayList<Pair<String,Double>>[] calcularTF(ArrayList<String>[] docsList,
+						       ArrayList<String> consulta){
 	//Conversion de cada lista del docsList a una listOcurrencias.
 	ArrayList<Pair<String, Integer>>[] docsListOcurrencias = new ArrayList[docsList.length];
 	ArrayList<Pair<String, Integer>> listOcurr = null;
@@ -279,8 +282,8 @@ public class TFIDFcalculator {
 	    word = (String)iterador.next();
 	    //Obtener el TF para cada documento de cada palabra de la consulta.
 	    for(int k = 0; k < docsListOcurrencias.length; k++){
-		/*Verificacion si alguna lista es vacia dentro del arreglo, automaticamente pone el TF en 0.0 
-		 * y añade la pareja a tfList[k] al final.
+		/*Verificacion si alguna lista es vacia dentro del arreglo, automaticamente
+		 *  pone el TF en 0.0 y añade la pareja a tfList[k] al final.
 		 */
 		if(docsListOcurrencias[k].isEmpty()){
 		    //Establecemos el tf de word como 0.0.
@@ -320,46 +323,46 @@ public class TFIDFcalculator {
 	}
 	return tfList;
     }
-
-
-
-    //AQUI NOS QUEDAAAAAMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-
-
     
     /**
-     * Metodo para hacer el calculo conjunto TF-IDF de una palabra en un conjunto de documentos.
-     * @param tf - Arreglo de LinkedLists de tipo Pair<String, Double>.
-     * @param idf - Arbol Rojinegro de tipo Double y String.
-     * @return LinkedList<Pair<String, Double>>[] - Arreglo de LinkedLists de tipo Pair<String, Double>
+     * Método para hacer el cálculo conjunto TF-IDF de una palabra en un conjunto de documentos.
+     * @param tf - Arreglo de ArrayLists de tipo Pair<String, Double>.
+     * @param idf - Hashtable con key String y value Pair<String, Double>.
+     * @return ArrayList<Pair<String, Double>>[] - Arreglo de ArrayList de tipo Pair<String, Double>.
      * con cada palabra y su valor TF-IDF de cada documento.
      */
-    public LinkedList<Pair<String, Double>>[] calcularTFIDF(LinkedList<Pair<String,Double>>[] tf, RedBlackTree<Double, String> idf){
+    public ArrayList<Pair<String, Double>>[] calcularTFIDF(ArrayList<Pair<String,Double>>[] tf,
+							    Hashtable<String, Pair<String, Double>> idf){
 	//Arr de listas que devolvera el metodo
-	LinkedList<Pair<String, Double>>[] devolver = new LinkedList[tf.length];
+	ArrayList<Pair<String, Double>>[] devolver = new ArrayList[tf.length];
 	//Lista Auxiliar para añadirla al arreglo Devolver.
-	LinkedList<Pair<String, Double>> tfIdfList = null;
+	ArrayList<Pair<String, Double>> tfIdfList = null;
 	//Calculo del TF-IDF de cada palabra de cada documento.
 	//Variables auxiliares temporales.
-	Iterator iterador = null;
+	Iterator<Pair<String,Double>> iterador = null;
 	Pair<String, Double> pareja = null;
+	Pair<String, Double> pareja2 = null;
 	String word = "";
 	double tfValue = 0.0;
 	double idfValue = 0.0;
 	double tfIdfValue = 0.0;
 	//Para cada palabra en cada documento hacer el calculo TF-IDF.
 	for(int i = 0; i < tf.length; i++){
-	    tfIdfList = new LinkedList<Pair<String, Double>>();
+	    tfIdfList = new ArrayList<Pair<String, Double>>();
 	    if(tf[i].isEmpty()){
 		devolver[i] = tfIdfList;
 		continue;
 	    }
-	    iterador = tf[i].iterador();
+	    iterador = tf[i].iterator();
 	    while(iterador.hasNext()){
 		pareja = (Pair<String, Double>)iterador.next();
+		//TF
 		word = pareja.getValue();
 		tfValue = pareja.getKey();
-		idfValue = idf.retrieve(word);
+		//IDF
+		pareja2 = idf.get(word);
+		idfValue = pareja2.getKey();
+		//Calculo
 		tfIdfValue = tfValue * idfValue;
 		tfIdfList.add(tfIdfList.size(), new Pair<String, Double>(word, tfIdfValue));
 	    }
@@ -368,16 +371,23 @@ public class TFIDFcalculator {
 	return devolver;
     }
 
+
+    
+    //AQUI NOS QUEDAAAAAMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+    
+    
+    
     /**
-     * Metodo para verificar la similitud entre una consulta y un conjunto de
+     * Método para verificar la similitud entre una consulta y un conjunto de
      * archivos.
      * @param tfIdf - Los valores tfIdf de cada palabra de todos los documentos.
      * @param tfIdfConsulta - Los valores tfIdf de cada palabra de la consulta con 
      * respecto a todos los documentos.
-     * @return Pair<Integer, Double>[] - con el numero del documento y su similitud
-     * con la busqueda.
+     * @return Pair<Integer, Double>[] - Un arreglo de tipo Pair<Integer, String> con el numero del 
+     * documento y su similitud con la busqueda.
      */
-    public Pair<Integer, Double>[] similitud(LinkedList<Pair<String, Double>>[] tfIdf, LinkedList<Pair<String, Double>>[] tfIdfConsulta){
+    public Pair<Integer, Double>[] similitud(ArrayList<Pair<String, Double>>[] tfIdf,
+					     ArrayList<Pair<String, Double>>[] tfIdfConsulta){
 	//Arreglo que devolveremos
 	Pair<Integer, Double>[] arr = new Pair[tfIdf.length];
 	
@@ -391,28 +401,31 @@ public class TFIDFcalculator {
 	double resultado = 0.0;
 	Pair<String, Double> pareja = null;
 	Pair<Integer, Double> pareja2 = null;
-	//Inicio del calculo.
+	//Inicio del calculo para cada documento.
 	for(int k = 0; k < tfIdfConsulta.length; k++){
-	    //Suma para tfIdfConsulta
-	    sum = 0.0;
-	    Iterator iterador = tfIdfConsulta[k].iterador();
-	    while(iterador.hasNext()){
-		pareja = (Pair<String, Double>)iterador.next();
-		parejaKey = pareja.getKey();
-		sum = sum + parejaKey;
-	    }
-
+	    
+	    /*Verificamos si alguna lista del arreglo tfIdf es vacia 
+	      y de ser asi entramos en el siguiente if*/
 	    if(tfIdf[k].isEmpty()){
-		resultado = 0;
+		resultado = 0.0;
 		//Añadir el resultado a la posicion k.
 		pareja2 = new Pair<Integer, Double>(k, resultado);
 		arr[k] = pareja2;
 		continue;
 	    }
+	    
+	    //Suma para tfIdfConsulta
+	    sum = 0.0;
+	    Iterator<Pair<String, Double>> iterador = tfIdfConsulta[k].iterator();
+	    while(iterador.hasNext()){
+		pareja = (Pair<String, Double>)iterador.next();
+		parejaKey = pareja.getKey();
+		sum = sum + parejaKey;
+	    }
 		
 	    //Suma para tfIdf
 	    sum2 = 0.0;
-	    Iterator iterador2 = tfIdf[k].iterador();
+	    Iterator<Pair<String, Double>> iterador2 = tfIdf[k].iterator();
 	    while(iterador2.hasNext()){
 		pareja = (Pair<String, Double>)iterador2.next();
 		parejaKey = pareja.getKey();

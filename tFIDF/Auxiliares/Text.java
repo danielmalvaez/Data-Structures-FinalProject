@@ -3,6 +3,7 @@
 
 //Imports
 import java.io.*;
+
 /**
  * Clase que nos permite escribir sobre un archivo .txt y leer
  * un archivo txt.
@@ -35,7 +36,7 @@ public class Text{
 	    escritor.write(historial);
 	    escritor.newLine();
 	}catch(FileNotFoundException e){
-	    System.out.println("Archivo no encontrado.");
+	    System.out.println("No tienes historial.");
 	}catch(IOException e){
 	    e.printStackTrace();
 	}finally{
@@ -58,7 +59,7 @@ public class Text{
      * @return String - El texto que hay dentro del archivo.
      * @param historial - El nombre del archivo.
      */
-    public String readString(String historial){
+    public String readDocument(String historial){
 	BufferedReader lector = null;
         FileReader archivo = null;
         String linea = null;
