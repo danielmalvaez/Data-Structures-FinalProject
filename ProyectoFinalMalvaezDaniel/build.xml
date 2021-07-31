@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This is a generated file from NetBeans so that you can run your project from your Command Line
+Commands:
+    * ant build
+    * ant jar
+    * ant run
+    * ant clean
+    * ant doc
+And more other commands but this are the main ones and those that are needed for the DataStructure
+Final Project.
+* Author: Axel Daniel Malváez Flores
+* Version: 1.0 July 2021.
+-->
+<project name="InterfacesJavaProject" default="default" basedir=".">
+    <description>Builds, tests, and runs the project InterfacesJavaProject.</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>
