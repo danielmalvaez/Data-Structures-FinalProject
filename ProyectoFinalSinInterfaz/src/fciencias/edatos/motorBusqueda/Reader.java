@@ -1,5 +1,4 @@
 //Package
-//package fciencias.edatos.motorBusqueda;
 package fciencias.edatos.motorBusqueda;
 
 //Imports
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  * @author Axel Daniel Malváez Flores
  * @version 2.0
  */
-public class Reader {
+public class Reader{
     
     /**
      * Metodo que utiliza como parametro un file de extension .txt y lo guarda en un
@@ -94,8 +93,7 @@ public class Reader {
 		    hst = hst + linea + "\n";
 	    } while (linea != null);
         } catch(FileNotFoundException e) {
-            linea = "No tienes historial aún.";
-            return linea;
+            System.out.println("Archivo no encontrado.");
         } catch(IOException e) {
             e.printStackTrace();
         } finally {
@@ -106,6 +104,8 @@ public class Reader {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }else {
+                System.out.println("No hay ningun archivo abierto.");
             }
         }
 	    return hst;
@@ -172,44 +172,7 @@ public class Reader {
 	return fileList;
     }//Method readString
     
-    /**
-     * Método que nos limpia un documento txt.
-     * @param name - Nombre del documento del que queremos obtener su respectiva
-     * información.
-     */
-    public void cleanDocument(String name){
-        //Objeto para escribir
-        BufferedWriter escritor = null;
-        //Objeto del archivo
-        FileWriter archivo = null;
-	//Nombre del archivo en el que se eescribira.
-	String nombreArchivo = name;
-	File file = null;
-        try{
-	    //Creamos el archivo en donde leeremos
-	    file = new File(nombreArchivo);
-            //Si ya existe lo sobreescribe por el contrario lo crea
-	    archivo= new FileWriter(file);
-	    //Creamos el objeto de lectura
-	    escritor=new BufferedWriter(archivo);
-	    //escribimos en el archivo
-	    escritor.write("");
-	}catch(FileNotFoundException e){
-	    System.out.println("No tienes historial.");
-	}catch(IOException e){
-	    e.printStackTrace();
-	}finally{
-	    if(escritor != null){
-		try{
-		    escritor.close();
-		    archivo.close();
-		}catch(IOException e){
-		    e.printStackTrace();
-		}
-	    }else{
-		System.out.println("No hay ningun archivo abierto");
-	    }
-	}
-    }
-    
+
+
+
 }//Class

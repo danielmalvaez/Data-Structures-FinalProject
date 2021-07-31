@@ -1,5 +1,4 @@
 //Package
-//package fciencias.edatos.motorBusqueda;
 package fciencias.edatos.motorBusqueda;
 
 //Imports
@@ -15,14 +14,28 @@ import java.util.*;
 public class Auxiliar{
 
     /**
-     * Metodo Auxiliar para la conversión de los documentos tipo
-     * File a ArrayLists.
-     * @param arrDocs - Arreglo con todos los documentos txt ya convertidos 
-     * en File.
-     * @return ArrayList<String> - Un arreglo con los documentos vistos como 
-     * una ArrayList.
+     * Metodo auxiliar para la Progress Bar en la carga de archivos..
+     * @param pathName una ruta dada como input.
      */
-    public ArrayList<String>[] getListsString(File[] arrDocs){
+    public void progressBar(File[] arr, String pathName){
+	try{
+	    for (int x =0 ; x < arr.length ; x++){
+		String data = "\r" + "Archivos cargados..." + " " + (x+1);
+		System.out.write(data.getBytes());
+		Thread.sleep(30);
+	    }
+	}catch(Exception e){
+	}
+    }
+
+    /**
+     * Metodo Auxiliar para la Progress Bar en la conversión de los documentos tipo
+     * File a ArrayLists.
+     * @param arrDocs - Arreglo con todos los documentos txt ya convertidos en File.
+     * @return ArrayList<String> - Un arreglo con los documentos vistos como una 
+     * ArrayList.
+     */
+    public ArrayList<String>[] progressBar(File[] arrDocs){
 	//Arreglo en donde se guardaran los documentos.
 	ArrayList<String>[] docsList = new ArrayList[arrDocs.length];
 	//Lista Auxiliar de recuperacion de un ArrayList.
@@ -43,13 +56,12 @@ public class Auxiliar{
     }
     
     /**
-     * Método Auxiliar para el cálculo del IDF dado un arreglo de listas.
-     * @param arrList - Arreglo con todos los documentos txt ya convertidos en 
-     * listas.
-     * @return Hashtable<String, Pair<String, Double>> - Tabla hash con un 
-     * String como key y con un Pair<String, Double> como value.
+     * Método Auxiliar para la Progress Bar en el cálculo del IDF dado un arreglo de listas.
+     * @param arrList - Arreglo con todos los documentos txt ya convertidos en listas.
+     * @return Hashtable<String, Pair<String, Double>> - Tabla hash con un String como key y con un
+     * Pair<String, Double> como value.
      */
-    public Hashtable<String, Pair<String, Double>> getListsIDF(ArrayList<String>[] arrList){
+    public Hashtable<String, Pair<String, Double>> progressBarIDF(ArrayList<String>[] arrList){
 	//Arbol que devolveremos
 	Hashtable<String, Pair<String, Double>> ht = null;
 	//Creacion de un objeto tipo calculator.
@@ -72,12 +84,12 @@ public class Auxiliar{
     }
 
     /**
-     * Método Auxiliar para el cálculo del TF dado un arreglo de listas.
+     * Método Auxiliar para la Progress Bar en el cálculo del TF dado un arreglo de listas.
      * @param arrList - Arreglo con todos los documentos txt ya convertidos en listas.
      * @return ArrayList<Pair<String,Double>>[] - Un areglo de listas con cada palabra de 
      * cada documento con su respectivo valor TF.
      */
-    public ArrayList<Pair<String,Double>>[] getListsTF(ArrayList<String>[] arrList){
+    public ArrayList<Pair<String,Double>>[] progressBar(ArrayList<String>[] arrList){
 	//Lista que devolveremos
 	ArrayList<Pair<String,Double>>[] listPair = new ArrayList[arrList.length];
 	//Creacion de un objeto tipo calculator.
@@ -100,17 +112,14 @@ public class Auxiliar{
     }
 
     /**
-     * Método Auxiliar para el cálculo del TF-IDF dado un arreglo con los 
-     * valores TF para cada lista y un Hashtable con los valores IDF de cada 
-     * palabra en los documentos.
-     * @param arrTF - Arreglo con los valores TF de cada palabra en cada 
-     * documento.
-     * @param ht - HashTable con los valores IDF de cada palabra en todos los 
-     * documentos.
-     * @return ArrayList<Pair<String,Double>>[] - Un areglo de listas con cada 
-     * palabra de cada documento con su respectivo valor TF-IDF.
+     * Método Auxiliar para la Progress Bar en el cálculo del TF-IDF dado un arreglo con los 
+     * valores TF para cada lista y un Hashtable con los valores IDF de cada palabra en los documentos.
+     * @param arrTF - Arreglo con los valores TF de cada palabra en cada documento.
+     * @param ht - HashTable con los valores IDF de cada palabra en todos los documentos.
+     * @return ArrayList<Pair<String,Double>>[] - Un areglo de listas con cada palabra de 
+     * cada documento con su respectivo valor TF-IDF.
      */
-    public ArrayList<Pair<String,Double>>[] getListsTFIDF(ArrayList<Pair<String,Double>>[] arrTF,
+    public ArrayList<Pair<String,Double>>[] progressBar(ArrayList<Pair<String,Double>>[] arrTF,
 								  Hashtable<String, Pair<String, Double>>
 								  ht){
 	//Lista que devolveremos.

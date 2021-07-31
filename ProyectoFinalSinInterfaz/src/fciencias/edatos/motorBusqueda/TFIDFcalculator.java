@@ -1,5 +1,4 @@
 //Package
-//package fciencias.edatos.motorBusqueda;
 package fciencias.edatos.motorBusqueda;
 
 //Imports
