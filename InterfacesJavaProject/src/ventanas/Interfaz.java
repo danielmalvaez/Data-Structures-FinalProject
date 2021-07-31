@@ -23,25 +23,68 @@ import java.util.*;
  */
 public class Interfaz extends javax.swing.JFrame {
     
-    private Timer t;
-    private final ActionListener ac;
+    Timer t;
     int x = 0;
-    
+    private final ActionListener ac;
+    private File[] arrDocs;
+    private Menu menu;
+    ArrayList<String>[] stringList = null;
+    Hashtable<String, Pair<String, Double>> ht = null;
+    ArrayList<Pair<String, Double>>[] arrTF = null;
+    ArrayList<Pair<String, Double>>[] arrTFIDF = null;
+    Auxiliar aux = new Auxiliar();
+
     /**
      * Creates new form Interfaz
      */
     public Interfaz() {
         initComponents();
         this.setLocationRelativeTo(null);
-        ac = new ActionListener(){
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                x = x + 1;
-                jProgressBar1.setValue(x);
-            }  
-        };
+        ac = new ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        x = x + 1;
+                        jProgressBar1.setValue(x);
+                        if (jProgressBar1.getValue() == x) {
+                            porcentaje.setText(String.valueOf(x) + "%");
+                        }
+                        if(jProgressBar1.getValue() == 1)
+                            processing.setText("Cargando archivos...");
+                        
+                        if(jProgressBar1.getValue() == 10){
+                            processing.setText("Calculando listas...");
+                            stringList = aux.getListsString(arrDocs);
+                        }
+                        if(jProgressBar1.getValue() == 20){
+                            processing.setText("Calculando IDF...");
+                            ht = aux.getListsIDF(stringList);
+                        }
+                        if(jProgressBar1.getValue() == 30){
+                            processing.setText("Calculando TF...");
+                            arrTF = aux.getListsTF(stringList);
+                        }
+                        if(jProgressBar1.getValue() == 40){
+                             processing.setText("Calculando TF-IDF...");
+                            arrTFIDF = aux.getListsTFIDF(arrTF, ht);
+                        }
+                        if(jProgressBar1.getValue() == 41){
+                             processing.setText("Procesando documentos...");
+                        }
+                        
+                        if(jProgressBar1.getValue() == 100){
+                            t.stop();
+                            menu.setArrDocs(arrDocs);
+                            menu.setStringList(stringList);
+                            menu.setHt(ht);
+                            menu.setArrTF(arrTF);
+                            menu.setArrTFIDF(arrTFIDF);
+                            menu.setVisible(true);
+                            dispose();
+                        }
+                    }
+                };        
+        //Iniciar timer para la barra.
         t = new Timer(100, ac);
-        t.start();
         getIconImage();
     }
 
@@ -94,11 +137,6 @@ public class Interfaz extends javax.swing.JFrame {
         textRuta.setFont(new java.awt.Font("Orator Std", 0, 13)); // NOI18N
         textRuta.setForeground(new java.awt.Color(102, 102, 102));
         textRuta.setText("/Users/Daniel/Documentos/ExamplesTXT");
-        textRuta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textRutaActionPerformed(evt);
-            }
-        });
         getContentPane().add(textRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 620, 40));
 
         verificarRuta.setBackground(new java.awt.Color(102, 102, 102));
@@ -120,7 +158,7 @@ public class Interfaz extends javax.swing.JFrame {
         porcentaje.setFont(new java.awt.Font("Orator Std", 0, 18)); // NOI18N
         porcentaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         porcentaje.setText("0%");
-        getContentPane().add(porcentaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 240, 60, 30));
+        getContentPane().add(porcentaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 60, 30));
         getContentPane().add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, -1, 30));
 
         LabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo1.png"))); // NOI18N
@@ -133,10 +171,6 @@ public class Interfaz extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_botonSalirActionPerformed
 
-    private void textRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textRutaActionPerformed
-        //Nothing to do in this method.
-    }//GEN-LAST:event_textRutaActionPerformed
-
     private void verificarRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarRutaActionPerformed
         /** Clase abstracta que nos permite definir el metodo de la
 	 la interface FileFilter*/
@@ -148,10 +182,9 @@ public class Interfaz extends javax.swing.JFrame {
         
         //Obtener la ruta pasada como argumento.
         String pathName = textRuta.getText().trim();
-        File[] arrDocs = null;
-        Menu menu = null;
+        arrDocs = null;
+        menu = null;
         try{
-            
             //Cargar los archivos guardados en el pathName.
             File dir = new File(pathName);
             
@@ -161,15 +194,19 @@ public class Interfaz extends javax.swing.JFrame {
             if(arrDocs.length == 0){
 		processing.setText("No hay archivos .txt en esta ruta.");
             }else{
-                //Objeto para procesar los datos.
-                Auxiliar aux = new Auxiliar();
                 
-                ArrayList<String>[] stringList = null;
-                Hashtable<String, Pair<String, Double>> ht = null;
-                ArrayList<Pair<String,Double>>[] arrTF = null;
-                ArrayList<Pair<String, Double>>[] arrTFIDF = null;
-
-                /* Procesamiento de los archivos. */
+                stringList = null;
+                ht = null;
+                arrTF = null;
+                arrTFIDF = null;
+                
+                /* Abrir la interfaz Menu. */
+                //Interfaces que abriremos y cerraremos.
+                menu = new Menu();
+                
+                t.start();
+                
+                /* Procesamiento de los archivos. 
                 //Convertirlos a ArrayLists.
                 stringList = aux.getListsString(arrDocs);
                 System.out.println("Si los hace listas");
@@ -182,24 +219,18 @@ public class Interfaz extends javax.swing.JFrame {
                 //Calcular su TFIDF
                 arrTFIDF = aux.getListsTFIDF(arrTF, ht);
                 System.out.println("Si calcula TFIDF");
+               */
                 
-                
-                processing.setText("Archivos procesados con éxito.");
-                
-                /* Abrir la interfaz Menu. */
-                //Interfaces que abriremos y cerraremos.
-                menu = new Menu();
-                
-                //Agregar atributos previamente ya calculados.
+                /*Agregar atributos previamente ya calculados.
                 menu.setArrDocs(arrDocs);
                 menu.setArrTF(arrTF);
                 menu.setStringList(stringList);
                 menu.setHt(ht);
                 menu.setArrTFIDF(arrTFIDF);
+                */
                 
-                //Abrir esta interfaz
-                menu.setVisible(true);
-                this.dispose();
+                //menu.setVisible(true);
+                //this.dispose();
             }
         }catch(Exception e){
             System.out.println(e);
