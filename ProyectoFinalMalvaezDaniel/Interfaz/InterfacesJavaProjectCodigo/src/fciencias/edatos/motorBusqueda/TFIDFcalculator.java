@@ -371,6 +371,12 @@ public class TFIDFcalculator {
 	}
 	return devolver;
     }
+
+
+    
+    //AQUI NOS QUEDAAAAAMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+    
+    
     
     /**
      * Método para verificar la similitud entre una consulta y un conjunto de
