@@ -137,7 +137,7 @@ public class PrincipalInterface extends javax.swing.JFrame {
         textRuta.setBackground(new java.awt.Color(204, 204, 204));
         textRuta.setFont(new java.awt.Font("Orator Std", 0, 13)); // NOI18N
         textRuta.setForeground(new java.awt.Color(102, 102, 102));
-        textRuta.setText("/Users/Daniel/Documentos/ExamplesTXT");
+        textRuta.setText("E.g. /Users/Daniel/Docs/TXTFiles");
         getContentPane().add(textRuta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 620, 40));
 
         verificarRuta.setBackground(new java.awt.Color(102, 102, 102));
