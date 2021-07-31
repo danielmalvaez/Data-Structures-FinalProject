@@ -1,27 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Package
 package ventanas;
 
-/**
- * Imports
- */
+//Imports
 import java.util.*;
 import java.io.*;
 import java.awt.Image;
 import java.awt.Toolkit;
 
 /**
- *
- * @author Daniel
+ * Clase de la GUI Resultados
+ * @author Axel Daniel Malváez Flores
+ * @version 1.0
  */
 public class Resultados extends javax.swing.JFrame {
 
-    /*
-    * Attributes of this interface.
-    */
+    //Atributos de la GUI Resultados.
     private ArrayList<String> simi;
     private File[] arrDocs;
     private ArrayList<String>[] stringList;
@@ -31,7 +24,8 @@ public class Resultados extends javax.swing.JFrame {
     private ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache;
     
     /**
-     * Creates new form Resultados
+     * Método constructor de la GUI Resultados.
+     * @param simi 
      */
     public Resultados(ArrayList<String> simi) {
         this.simi = simi;
@@ -44,44 +38,79 @@ public class Resultados extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         mostrarResultados();
+        getIconImage();
     }
     
     /**
-     * This method changes the icon of the interface
+     * Método que cambia el icono de la GUI.
+     * @return Image - imagen para el icono.
      */
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logoMD.png"));
         return retValue;
     }
 
+    /**
+     * Setter del array simi.
+     * @param simi - Un arraylist de tipo String.
+     */
     public void setSimi(ArrayList<String> simi) {
         this.simi = simi;
     }
 
+    /**
+     * Setter para arrDocs
+     * @param arrDocs - Arreglo de Files.
+     */
     public void setArrDocs(File[] arrDocs) {
         this.arrDocs = arrDocs;
     }
 
+    /**
+     * Setter para stringList
+     * @param stringList - Arreglo de ArrayLists de tipo String.
+     */
     public void setStringList(ArrayList<String>[] stringList) {
         this.stringList = stringList;
     }
 
+    /**
+     * Setter para el Hashtable ht
+     * @param ht - Hashtable con key String y con value de tipo Pair<Stirng, 
+     * Double>.
+     */
     public void setHt(Hashtable<String, Pair<String, Double>> ht) {
         this.ht = ht;
     }
 
+    /**
+     * Setter para el arrTF
+     * @param arrTF - Arreglo de Arraylists de tipo Pair<String, Double>.
+     */
     public void setArrTF(ArrayList<Pair<String, Double>>[] arrTF) {
         this.arrTF = arrTF;
     }
 
+    /**
+     * Setter para el arrTFIDF
+     * @param arrTFIDF - Arreglo que ArrayLists de tipo Pair<String, Double>.
+     */
     public void setArrTFIDF(ArrayList<Pair<String, Double>>[] arrTFIDF) {
         this.arrTFIDF = arrTFIDF;
     }
 
+    /**
+     * Setter para le cache.
+     * @param cache - Un ArrayLists de tipo Pair con value ArrayList<String> y
+     * value ArrayList<String>.
+     */
     public void setCache(ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache) {
         this.cache = cache;
     }
     
+    /**
+     * Método que muestra los mejores 10 resultados en la pantalla.
+     */
     public void mostrarResultados(){
         //Creamos un iterador.
         for(int i = 0; i < simi.size(); i++){
@@ -107,7 +136,6 @@ public class Resultados extends javax.swing.JFrame {
             else if(i == 9)
                 coincidencia10.setText("10." + simi.get(i));
         }
-        
     }
     
     /**
@@ -218,6 +246,10 @@ public class Resultados extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método que modifica el comportamiento del backButton.
+     * @param evt - Objeto de tipo ActionEvent
+     */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         Buscar buscar = new Buscar();
         //Atributos
@@ -232,6 +264,10 @@ public class Resultados extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    /**
+     * Método que modifica el comportamiento del salirButton.
+     * @param evt - Objeto de tipo ActionEvent
+     */
     private void salirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirButtonActionPerformed
         System.exit(0);
     }//GEN-LAST:event_salirButtonActionPerformed

@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Package
 package ventanas;
 
+//Imports
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -12,14 +9,13 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 /**
- *
- * @author Daniel
+ * Clase de la GUI Historial.
+ * @author Axel Daniel Malváez Flores
+ * @version 1.0
  */
 public class Historial extends javax.swing.JFrame {
 
-    /*
-     * Attributes of this class
-     */
+    //Atributos de la GUI Historial.
     private File[] arrDocs;
     private ArrayList<String>[] stringList;
     private Hashtable<String, Pair<String, Double>> ht;
@@ -28,7 +24,8 @@ public class Historial extends javax.swing.JFrame {
     private ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache;
     
     /**
-     * Creates new form Historial
+     * Método constructor de la GUI Historial.
+     * @param text - El string que mostraremos.
      */
     public Historial(String text) {
         arrDocs = null;
@@ -39,37 +36,65 @@ public class Historial extends javax.swing.JFrame {
         cache = null;
         initComponents();
         this.setLocationRelativeTo(null);
+        getIconImage();
         addHistorial(text);
     }
     
     /**
-     * This method changes the icon of the interface
+     * Método que modifica el icono de la GUI
+     * @return Image - imagen para el icono de la GUI.
      */
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logoMD.png"));
         return retValue;
     }
 
+    /**
+     * Setter para arrDocs
+     * @param arrDocs - Arreglo de Files.
+     */
     public void setArrDocs(File[] arrDocs) {
         this.arrDocs = arrDocs;
     }
 
+    /**
+     * Setter para stringList
+     * @param stringList - Arreglo de ArrayLists de tipo String.
+     */
     public void setStringList(ArrayList<String>[] stringList) {
         this.stringList = stringList;
     }
 
+    /**
+     * Setter para el Hashtable ht
+     * @param ht - Hashtable con key String y con value de tipo Pair<Stirng, 
+     * Double>.
+     */
     public void setHt(Hashtable<String, Pair<String, Double>> ht) {
         this.ht = ht;
     }
 
+    /**
+     * Setter para el arrTF
+     * @param arrTF - Arreglo de Arraylists de tipo Pair<String, Double>.
+     */
     public void setArrTF(ArrayList<Pair<String, Double>>[] arrTF) {
         this.arrTF = arrTF;
     }
 
+    /**
+     * Setter para el arrTFIDF
+     * @param arrTFIDF - Arreglo que ArrayLists de tipo Pair<String, Double>.
+     */
     public void setArrTFIDF(ArrayList<Pair<String, Double>>[] arrTFIDF) {
         this.arrTFIDF = arrTFIDF;
     }
 
+    /**
+     * Setter para le cache.
+     * @param cache - Un ArrayLists de tipo Pair con value ArrayList<String> y
+     * value ArrayList<String>.
+     */
     public void setCache(ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache) {
         this.cache = cache;
     }
@@ -164,6 +189,10 @@ public class Historial extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    /**
+     * Método que modifica el comportamiendo del cleanHistorialButton.
+     * @param evt - Objeto de tipo ActionEvent.
+     */
     private void cleanHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanHistorialActionPerformed
         //Create new Reader Object.
         Reader reader = new Reader();
@@ -174,10 +203,18 @@ public class Historial extends javax.swing.JFrame {
         textArea.setText(hi);
     }//GEN-LAST:event_cleanHistorialActionPerformed
 
+    /**
+     * Método que modifica el comportamiento del salirButton
+     * @param evt - Objeto de tipo ActionEvent.
+     */
     private void salirProgramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirProgramaActionPerformed
         System.exit(0);
     }//GEN-LAST:event_salirProgramaActionPerformed
 
+    /**
+     * Método que añade el String pasado como parámetro al área de texto.
+     * @param text - String historial ya calculado.
+     */
     public void addHistorial(String text){
         textArea.setText(text);
     }

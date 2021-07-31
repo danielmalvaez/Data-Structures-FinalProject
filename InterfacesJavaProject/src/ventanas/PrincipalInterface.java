@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Package
 package ventanas;
 
-/**
- * Imports
- */
+//Imports
 import java.awt.event.ActionListener;
 import java.awt.*;
 import javax.swing.Timer;
@@ -17,29 +11,36 @@ import java.io.*;
 import java.util.*;
 
 /**
- *
+ * Clase de la GUI principal donde se procesará la ruta dada por el
+ * usuario.
  * @author Axel Daniel Malváez Flores
- * @version 1.0
+ * @version 2.0
  */
-public class Interfaz extends javax.swing.JFrame {
-    
+public class PrincipalInterface extends javax.swing.JFrame {
+    //Atributos de la clase.
     Timer t;
     int x = 0;
     private final ActionListener ac;
     private File[] arrDocs;
     private Menu menu;
+    //Arreglos y Hashtable donde guardaremos los calculos, se declaran antes
+    //por el hecho de utilizar la progressBar.
     ArrayList<String>[] stringList = null;
     Hashtable<String, Pair<String, Double>> ht = null;
     ArrayList<Pair<String, Double>>[] arrTF = null;
     ArrayList<Pair<String, Double>>[] arrTFIDF = null;
+    //Objeto de la clase Auxiliar que nos ayuda con los calculos.
     Auxiliar aux = new Auxiliar();
 
     /**
-     * Creates new form Interfaz
+     * Método constructor de la GUI PrincipalInterface
      */
-    public Interfaz() {
+    public PrincipalInterface() {
+        //Componentes iniciales para la GUI.
         initComponents();
+        //Ajustarla al centro de la pantalla.
         this.setLocationRelativeTo(null);
+        //ActionListener para la progressBar.
         ac = new ActionListener() {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -67,7 +68,7 @@ public class Interfaz extends javax.swing.JFrame {
                              processing.setText("Calculando TF-IDF...");
                             arrTFIDF = aux.getListsTFIDF(arrTF, ht);
                         }
-                        if(jProgressBar1.getValue() == 41){
+                        if(jProgressBar1.getValue() == 50){
                              processing.setText("Procesando documentos...");
                         }
                         
@@ -84,12 +85,12 @@ public class Interfaz extends javax.swing.JFrame {
                     }
                 };        
         //Iniciar timer para la barra.
-        t = new Timer(100, ac);
+        t = new Timer(50, ac);
         getIconImage();
     }
 
     /**
-     * This method change the icon of the interface
+     * Este método cambia el icono de la GUI al momento de ejecutarla
      */
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logoMD.png"));
@@ -167,10 +168,18 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método para modificar el comportamiento del botón salir.
+     * @param evt - Un objeto de tipo ActionEvent 
+     */
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_botonSalirActionPerformed
 
+    /**
+     * Metodo para modificar el comportamiento del boton verificarRuta.
+     * @param evt - Un objeto de tipo ActionEvent 
+     */
     private void verificarRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verificarRutaActionPerformed
         /** Clase abstracta que nos permite definir el metodo de la
 	 la interface FileFilter*/
@@ -194,43 +203,15 @@ public class Interfaz extends javax.swing.JFrame {
             if(arrDocs.length == 0){
 		processing.setText("No hay archivos .txt en esta ruta.");
             }else{
-                
                 stringList = null;
                 ht = null;
                 arrTF = null;
                 arrTFIDF = null;
-                
                 /* Abrir la interfaz Menu. */
                 //Interfaces que abriremos y cerraremos.
                 menu = new Menu();
-                
+                /* Inicia el progressBar. */
                 t.start();
-                
-                /* Procesamiento de los archivos. 
-                //Convertirlos a ArrayLists.
-                stringList = aux.getListsString(arrDocs);
-                System.out.println("Si los hace listas");
-                //Calcular su IDF
-                ht = aux.getListsIDF(stringList);
-                System.out.println("Si calcula IDF");
-                //Calcular su TF
-                arrTF = aux.getListsTF(stringList);
-                System.out.println("Si calcula TF");
-                //Calcular su TFIDF
-                arrTFIDF = aux.getListsTFIDF(arrTF, ht);
-                System.out.println("Si calcula TFIDF");
-               */
-                
-                /*Agregar atributos previamente ya calculados.
-                menu.setArrDocs(arrDocs);
-                menu.setArrTF(arrTF);
-                menu.setStringList(stringList);
-                menu.setHt(ht);
-                menu.setArrTFIDF(arrTFIDF);
-                */
-                
-                //menu.setVisible(true);
-                //this.dispose();
             }
         }catch(Exception e){
             System.out.println(e);
@@ -255,20 +236,21 @@ public class Interfaz extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalInterface.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Interfaz().setVisible(true);
+                new PrincipalInterface().setVisible(true);
             }
         });
     }

@@ -1,28 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Package
 package ventanas;
 
-/**
- * Imports
- */
+//Imports
 import java.io.*;
 import java.util.*;
 import java.awt.Image;
 import java.awt.Toolkit;
 
 /**
- * Implementation of my Menu class for the interface
+ * Clase de la GUI Menu, para hacer busquedas, ver historial o cambiar de
+ * ruta.
  * @author Axel Daniel Malváez Flores
- * @version 1.0
+ * @version 2.0
  */
 public class Menu extends javax.swing.JFrame {
     
-    /**
-     * Attributes of the Menu
-     */
+    //Atributos de la clase.
     private File[] arrDocs;
     private ArrayList<String>[] stringList;
     private Hashtable<String, Pair<String, Double>> ht;
@@ -31,7 +24,7 @@ public class Menu extends javax.swing.JFrame {
     private ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache;
     
     /**
-     * Creates new form Menu
+     * Crea una nueva GUI Menu. Metodo constructor.
      */
     public Menu() {
         arrDocs = null;
@@ -42,36 +35,67 @@ public class Menu extends javax.swing.JFrame {
         cache = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
         initComponents();
         this.setLocationRelativeTo(null);
+        getIconImage();
     }
     
     /**
-     * This method changes the icon of the interface
+     * Cambia el icono de la GUI.
+     * @return Image - Una imagen para el icono. 
      */
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logoMD.png"));
         return retValue;
     }
 
+    /**
+     * Setter para el ArrDocs.
+     * @param arrDocs - Arreglo de Files.
+     */
     public void setArrDocs(File[] arrDocs) {
         this.arrDocs = arrDocs;
     }
 
+    /**
+     * Setter para el stringList
+     * @param stringList - Arreglo de listas de tipo String.
+     */
     public void setStringList(ArrayList<String>[] stringList) {
         this.stringList = stringList;
     }
 
+    /**
+     * Setter para el Hashtable
+     * @param ht - un Hashtable de tipo String como key y Pair<String, Double>
+     * para el value.
+     */
     public void setHt(Hashtable<String, Pair<String, Double>> ht) {
         this.ht = ht;
     }
 
+    /**
+     * Setter para el arrTF
+     * @param arrTF - Arreglo de listas de tipo Pair con key String y value de
+     * tipo Double.
+     */
     public void setArrTF(ArrayList<Pair<String, Double>>[] arrTF) {
         this.arrTF = arrTF;
     }
 
+    /**
+     * Setter para el arrTFIDF
+     * @param arrTFIDF - Arreglo de listas de tipo pair con key String y valor
+     * Double.
+     */
     public void setArrTFIDF(ArrayList<Pair<String, Double>>[] arrTFIDF) {
         this.arrTFIDF = arrTFIDF;
     }
 
+    /**
+     * Setter para el Cache
+     * @param cache - Un arrayList de tipo Pair<ArrayList<String>, 
+     * ArrayList<String> para almacenar las busquedas y sus respectivos
+     * resultados.
+     */
     public void setCache(ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache) {
         this.cache = cache;
     }
@@ -164,6 +188,10 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método que modifica el comportamiento del botón Buscar.
+     * @param evt - Objeto tipo ActionEven.
+     */
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
         Buscar busqueda = new Buscar();
       
@@ -179,16 +207,28 @@ public class Menu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_BuscarActionPerformed
 
+    /**
+     * Método que modifica el botón salir.
+     * @param evt - Objeto tipo ActionEven.
+     */
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_SalirActionPerformed
 
+    /**
+     * Método que modifica el botón cambiarDeRuta.
+     * @param evt - Objeto tipo ActionEven.
+     */
     private void cambiarRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarRutaActionPerformed
-        Interfaz inter = new Interfaz();
+        PrincipalInterface inter = new PrincipalInterface();
         inter.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_cambiarRutaActionPerformed
 
+    /**
+     * Método que modifica el botón Historial.
+     * @param evt - Objeto tipo ActionEven.
+     */
     private void HistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistorialActionPerformed
         Reader reader = new Reader();
         String historial = reader.readDocument("HistorialDeBusqueda.txt");

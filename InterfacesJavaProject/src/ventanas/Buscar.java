@@ -1,28 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Package
 package ventanas;
 
-/**
- * Imports
- */
-
+//Imports
 import java.util.*;
 import java.io.*;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 
 /**
- *
- * @author Daniel
+ * Clase de la GUI Buscar.
+ * @author Axel Daniel Malváez Flores
+ * @version 2.0
  */
 public class Buscar extends javax.swing.JFrame {
-
-    /**
-    * Attributes of my interface
-    */
+    //Atributos de la GUI
+    javax.swing.Timer t;
+    int x = 0;
+    private final ActionListener ac;
     private File[] arrDocs;
     private ArrayList<String>[] stringList;
     private Hashtable<String, Pair<String, Double>> ht;
@@ -30,8 +25,21 @@ public class Buscar extends javax.swing.JFrame {
     private ArrayList<Pair<String,Double>>[] arrTFIDF;
     private ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache;
     
+    //Variable que sirve al momento de buscar en el cache
+    boolean iguales;
+    //Variable que sirve al momento de buscar en el cache
+    ArrayList<String> simi;
+    //Variable que sirve al momento de calcular los documentos mas relevantes
+    ArrayList<String> docsRelevantes;
+    //Objeto JFrame para que abra una nueva GUI con los resultados respectivos
+    Resultados resultados = null;
+    //Variable que sirve al momento de buscar en el cache 
+    boolean simiEmpty;
+    //Objeto auxiliar de la clase Auxiliar que nos ayuda a hacer los calculos
+    Auxiliar aux = new Auxiliar();
+    
     /**
-     * Creates new form Buscar
+     * Metodo constructor de la GUI Buscar
      */
     public Buscar() {
         arrDocs = null;
@@ -42,36 +50,111 @@ public class Buscar extends javax.swing.JFrame {
         cache = null;
         initComponents();
         this.setLocationRelativeTo(null);
+        ac = new ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent e) {
+                        x = x + 1;
+                        progressBar.setValue(x);
+                        if (progressBar.getValue() == x) {
+                            porcentaje.setText(String.valueOf(x) + "%");
+                        }
+                        if(progressBar.getValue() == 1)
+                            warningText.setText("Buscando...");
+                        
+                        if(progressBar.getValue() == 100){
+                            if((!simiEmpty) && iguales == true){
+                                t.stop();
+                                //Agregar atributos
+                                resultados.setSimi(simi);
+                                resultados.setArrTF(arrTF);
+                                resultados.setArrTFIDF(arrTFIDF);
+                                resultados.setCache(cache);
+                                resultados.setHt(ht);
+                                resultados.setStringList(stringList);
+                                resultados.setArrDocs(arrDocs);
+
+                                resultados.setVisible(true);
+                                dispose();
+                            }else{
+                                t.stop();
+                                //Agregar atributos
+                                resultados.setSimi(docsRelevantes);
+                                resultados.setArrTF(arrTF);
+                                resultados.setArrTFIDF(arrTFIDF);
+                                resultados.setCache(cache);
+                                resultados.setHt(ht);
+                                resultados.setStringList(stringList);
+                                resultados.setArrDocs(arrDocs);
+
+                                resultados.setVisible(true);
+                                dispose();
+                            }
+                        }
+                    }
+                };        
+        //Iniciar timer para la barra.
+        t = new javax.swing.Timer(20, ac);
+        getIconImage();
     }
 
     /**
-     * This method changes the icon of the interface
+     * Metodo que cambia el icono de la GUI Buscar
+     * @return Image - Imagen del nuevo icono.
      */
     public Image getIconImage(){
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/logoMD.png"));
         return retValue;
     }
     
+    /**
+     * Setter para arrDocs.
+     * @param arrDocs - Arreglo de Files.
+     */
     public void setArrDocs(File[] arrDocs) {
         this.arrDocs = arrDocs;
     }
 
+    /**
+     * Setter para stringList.
+     * @param stringList - Arreglo de listas de tipo String.
+     */
     public void setStringList(ArrayList<String>[] stringList) {
         this.stringList = stringList;
     }
-
+    
+    /**
+     * Setter para el Hashtable ht.
+     * @param ht - un Hashtable de tipo String como key y Pair<String, Double>
+     * para el value.
+     */
     public void setHt(Hashtable<String, Pair<String, Double>> ht) {
         this.ht = ht;
     }
 
+    /**
+     * Setter para arrTF
+     * @param arrTF - Arreglo de listas de tipo Pair con key String y value de
+     * tipo Double.
+     */
     public void setArrTF(ArrayList<Pair<String, Double>>[] arrTF) {
         this.arrTF = arrTF;
     }
 
+    /**
+     * Setter para arrTFIDF
+     * @param arrTFIDF - Arreglo de listas de tipo pair con key String y valor
+     * Double. 
+     */
     public void setArrTFIDF(ArrayList<Pair<String, Double>>[] arrTFIDF) {
         this.arrTFIDF = arrTFIDF;
     }
 
+    /**
+     * Setter para el cache.
+     * @param cache - Un arrayList de tipo Pair<ArrayList<String>, 
+     * ArrayList<String> para almacenar las busquedas y sus respectivos
+     * resultados.
+     */
     public void setCache(ArrayList<Pair<ArrayList<String>, ArrayList<String>>> cache) {
         this.cache = cache;
     }
@@ -91,6 +174,8 @@ public class Buscar extends javax.swing.JFrame {
         salirPrograma = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         warningText = new javax.swing.JLabel();
+        progressBar = new javax.swing.JProgressBar();
+        porcentaje = new javax.swing.JLabel();
         Fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,7 +183,7 @@ public class Buscar extends javax.swing.JFrame {
 
         busquedaText.setFont(new java.awt.Font("Orator Std", 0, 36)); // NOI18N
         busquedaText.setText("Búsqueda");
-        getContentPane().add(busquedaText, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 100, -1, -1));
+        getContentPane().add(busquedaText, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, -1, -1));
 
         textBusqueda.setBackground(new java.awt.Color(204, 204, 204));
         textBusqueda.setFont(new java.awt.Font("Orator Std", 0, 12)); // NOI18N
@@ -106,14 +191,9 @@ public class Buscar extends javax.swing.JFrame {
         textBusqueda.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         textBusqueda.setText("Ingrese su búsqueda...");
         textBusqueda.setToolTipText("");
-        textBusqueda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textBusquedaActionPerformed(evt);
-            }
-        });
-        getContentPane().add(textBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 610, 90));
+        getContentPane().add(textBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 610, 70));
 
-        buscarButton.setBackground(new java.awt.Color(102, 102, 102));
+        buscarButton.setBackground(new java.awt.Color(153, 153, 153));
         buscarButton.setFont(new java.awt.Font("Orator Std", 0, 14)); // NOI18N
         buscarButton.setForeground(new java.awt.Color(255, 255, 255));
         buscarButton.setText("Buscar");
@@ -122,9 +202,9 @@ public class Buscar extends javax.swing.JFrame {
                 buscarButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(buscarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 250, 100, 50));
+        getContentPane().add(buscarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, 100, 50));
 
-        salirPrograma.setBackground(new java.awt.Color(102, 102, 102));
+        salirPrograma.setBackground(new java.awt.Color(153, 153, 153));
         salirPrograma.setFont(new java.awt.Font("Orator Std", 0, 12)); // NOI18N
         salirPrograma.setForeground(new java.awt.Color(255, 255, 255));
         salirPrograma.setText("Salir");
@@ -135,7 +215,7 @@ public class Buscar extends javax.swing.JFrame {
         });
         getContentPane().add(salirPrograma, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 320, 100, 30));
 
-        backButton.setBackground(new java.awt.Color(102, 102, 102));
+        backButton.setBackground(new java.awt.Color(153, 153, 153));
         backButton.setFont(new java.awt.Font("Orator Std", 0, 12)); // NOI18N
         backButton.setForeground(new java.awt.Color(255, 255, 255));
         backButton.setText("Back");
@@ -149,7 +229,13 @@ public class Buscar extends javax.swing.JFrame {
         warningText.setFont(new java.awt.Font("Orator Std", 0, 13)); // NOI18N
         warningText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         warningText.setText("Búsqueda");
-        getContentPane().add(warningText, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, 400, 20));
+        getContentPane().add(warningText, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 160, 20));
+        getContentPane().add(progressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, -1, -1));
+
+        porcentaje.setBackground(new java.awt.Color(255, 255, 255));
+        porcentaje.setFont(new java.awt.Font("Orator Std", 0, 12)); // NOI18N
+        porcentaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(porcentaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 60, 20));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/frame1.png"))); // NOI18N
         getContentPane().add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 356));
@@ -157,14 +243,18 @@ public class Buscar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBusquedaActionPerformed
-        
-    }//GEN-LAST:event_textBusquedaActionPerformed
-
+    /**
+     * Método que modifica el comportamiento del botón salir.
+     * @param evt - Objeto de tipo ActionEvent
+     */
     private void salirProgramaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirProgramaActionPerformed
         System.exit(0);
     }//GEN-LAST:event_salirProgramaActionPerformed
 
+    /**
+     * Método que modifica el comportamiento del botón back.
+     * @param evt - Objeto de tipo ActionEvent
+     */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         //Creación del Menu.
         Menu menu = new Menu();
@@ -181,17 +271,18 @@ public class Buscar extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    /**
+     * Método que modifica el comportamiento del botón buscar.
+     * @param evt - Objeto de tipo ActionEvent
+     */
     private void buscarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButtonActionPerformed
         //variable para la busqueda en String.
         String search = textBusqueda.getText();
-        
-        warningText.setText("Buscando...");
         
         //Objetos que usaremos para los calculos.
         Reader reader = new Reader();
         Auxiliar aux = new Auxiliar();
         TFIDFcalculator calculator = new TFIDFcalculator();
-        Resultados resultados = null;
         
         //Busqueda vista como una lista.
 	ArrayList<String> busqueda = null;
@@ -223,7 +314,7 @@ public class Buscar extends javax.swing.JFrame {
         	//Iterador para recorrer el cache.
                 Iterator iteradorCache = cache.iterator();          
                 //Verificar si son iguales. 
-                boolean iguales = true;
+                iguales = true;
                 //Mientras el cache tenga siguiente.
                 while(iteradorCache.hasNext()){
                     pareja = (Pair<ArrayList<String>, ArrayList<String>>)iteradorCache.next();
@@ -250,12 +341,17 @@ public class Buscar extends javax.swing.JFrame {
                     //Si son iguales mostrar los resultados.
                     if(iguales == true){
                         System.out.println("Si entra al iguales");
-                        ArrayList<String> simi = pareja.getKey();
+                        simi = pareja.getKey();
                         //Imprimir los documentos relevantes.
-                        if(simi.isEmpty()){
+                        simiEmpty = simi.isEmpty();
+                        if(simiEmpty){
                             warningText.setText("Ningun documento es relevante para su busqueda.");
                             return;
                         } else{
+                            //Abrir resultados.
+                            resultados = new Resultados(simi);
+                            t.start();
+                            /*
                             //Abrir resultados.
                             resultados = new Resultados(simi);
                             //Agregar atributos
@@ -269,6 +365,7 @@ public class Buscar extends javax.swing.JFrame {
                             
                             resultados.setVisible(true);
                             this.dispose();
+                            */
                             return;
                         }
                     }
@@ -320,6 +417,10 @@ public class Buscar extends javax.swing.JFrame {
             } else {
                 //Abrir resultados.
                 resultados = new Resultados(docsRelevantes);
+                t.start();
+                /*
+                //Abrir resultados.
+                resultados = new Resultados(docsRelevantes);
                 //Agregar atributos
                 resultados.setSimi(docsRelevantes);
                 resultados.setArrTF(arrTF);
@@ -331,6 +432,7 @@ public class Buscar extends javax.swing.JFrame {
 
                 resultados.setVisible(true);
                 this.dispose();
+                */
             }
         } else {
             warningText.setText("Búsqueda invalida, rebasa el rango permitido.");
@@ -377,6 +479,8 @@ public class Buscar extends javax.swing.JFrame {
     private javax.swing.JButton backButton;
     private javax.swing.JButton buscarButton;
     private javax.swing.JLabel busquedaText;
+    private javax.swing.JLabel porcentaje;
+    private javax.swing.JProgressBar progressBar;
     private javax.swing.JButton salirPrograma;
     private javax.swing.JTextField textBusqueda;
     private javax.swing.JLabel warningText;

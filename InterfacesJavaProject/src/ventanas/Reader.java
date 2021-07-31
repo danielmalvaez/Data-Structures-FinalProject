@@ -172,6 +172,11 @@ public class Reader {
 	return fileList;
     }//Method readString
     
+    /**
+     * Método que nos limpia un documento txt.
+     * @param name - Nombre del documento del que queremos obtener su respectiva
+     * información.
+     */
     public void cleanDocument(String name){
         //Objeto para escribir
         BufferedWriter escritor = null;
