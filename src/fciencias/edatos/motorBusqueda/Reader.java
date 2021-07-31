@@ -2,33 +2,32 @@
 package fciencias.edatos.motorBusqueda;
 
 //Imports
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
-import java.io.File;
 import java.text.Normalizer;
+import java.util.ArrayList;
 
 /**
  * Clase que nos ayudara a leer documentos con extension .txt  y los almacenará
- * en una lista.
- * @author Axel Daniel Malvaez Flores
+ * en un ArrayList de Strings.
+ * @author Axel Daniel Malváez Flores
  * @version 2.0
  */
 public class Reader{
     
     /**
      * Metodo que utiliza como parametro un file de extension .txt y lo guarda en un
-     * String para despues pasarlo a una lista simplemente ligada y posteriormente
-     * regresarla con cada palabra en un nodo de la lista.
-     * @param File - Un archivo con extensión .txt.
-     * @return LinkedList<String> - Una lista ligada con cada palabra del texto en un nodo.
+     * String para despues pasarlo a un ArrayList y posteriormente regresarla con 
+     * cada palabra en una casilla de la lista.
+     * @param File - Un archivo con extensión .txt ya convertido en File.
+     * @return ArrayList<String> - Una ArrayList con cada palabra del texto en 
+     * un nodo.
      */
-    public LinkedList<String> readDocument(File file){
+    public ArrayList<String> readDocument(File file){
+	//Creacion de objetos
 	FileReader reader = null;
 	BufferedReader lector = null;
-	
+	//Variables auxiliares para recuperar el texto.
 	String line = "";
 	String document = "";
 	try{
@@ -57,12 +56,12 @@ public class Reader{
 	    }
 	}
 	
-	//Normalize the String.
+	//Normalizar el String.
 	document = Normalizer.normalize(document.toLowerCase(), Normalizer.Form.NFD);
 	String documentDepured = document.replaceAll("[^a-z\\s*]", "");
 	
 	Scanner io = new Scanner(documentDepured).useDelimiter("\\s*\\s");
-	LinkedList<String> fileList = new LinkedList<>();
+	ArrayList<String> fileList = new ArrayList<>();
 	while(io.hasNext()){
 	    fileList.add(fileList.size(), io.next());
 	}
@@ -70,32 +69,108 @@ public class Reader{
     }//Method readDocument
 
     /**
-     * Metodo que utiliza como parametro un string y lo convierte en una lista 
-     * simplemente ligada.
-     * @param busqueda - Un String con la busqueda a realizar.
-     * @return LinkedList<String> - Una lista ligada con cada palabra del texto en un nodo.
+     * Metodo que nos permite leer  un documento con extension txt y pasarlo a un
+     * String.
+     * @return String - El texto que hay dentro del archivo.
+     * @param historial - El nombre del archivo.
      */
-    public LinkedList<String> readString(String busqueda){
-	String busquedaDepured = "";
-	char letter = ' ';
-	//Verificar que la busqueda no tenga caracteres invalidos.
-	for(int i = 0; i < busqueda.length(); i++){
-	    letter = busqueda.charAt(i);
-	    if(!Character.isLetter(letter)){
-		busquedaDepured = busquedaDepured + " ";
-		continue;
+    public String readDocument(String historial){
+	BufferedReader lector = null;
+        FileReader archivo = null;
+        String linea = null;
+	String hst = "";
+        String nombreArchivo = historial;
+        try{
+	    //Creamos el archivo en donde leeremos
+	    archivo=new FileReader(nombreArchivo);
+	    //Creamos el objeto de lectura
+	    lector=new BufferedReader(archivo);
+	    //ciclo para leer todo el archivo
+	    do {
+		//recuperamos el objeto
+		linea = lector.readLine();
+		if(linea != null)
+		    hst = hst + linea + "\n";
+	    } while (linea != null);
+        } catch(FileNotFoundException e) {
+            System.out.println("No tienes historial.");
+        } catch(IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (lector!= null) {
+                try {		    
+                    lector.close();                    
+                    archivo.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+	    return hst;
+    }
+
+    /**
+     * Metodo que nos permite escribir un String en un documento con extension txt.
+     * @param historial - El string que queremos escribir en un archivo txt.
+     */
+    public void writeString(String historial){
+	//Objeto para escribir
+        BufferedWriter escritor = null;
+        //Objeto del archivo
+        FileWriter archivo = null;
+	//Nombre del archivo en el que se eescribira.
+	String nombreArchivo = "HistorialDeBusqueda.txt";
+	File file = null;
+	String historial1 = historial + System.lineSeparator();
+	String recuperar = "";
+	try{
+	    //Creamos el archivo en donde leeremos
+	    file = new File(nombreArchivo);
+            //Si ya existe lo sobreescribe por el contrario lo crea
+	    archivo= new FileWriter(file.getAbsoluteFile(), true);
+	    //Creamos el objeto de lectura
+	    escritor=new BufferedWriter(archivo);
+	    //escribimos en el archivo
+	    escritor.write(historial);
+	    escritor.newLine();
+	}catch(FileNotFoundException e){
+	    System.out.println("No tienes historial.");
+	}catch(IOException e){
+	    e.printStackTrace();
+	}finally{
+	    if(escritor != null){
+		try{
+		    escritor.close();
+		    archivo.close();
+		}catch(IOException e){
+		    e.printStackTrace();
+		}
+	    }else{
+		System.out.println("No hay ningun archivo abierto");
 	    }
-	    busquedaDepured = busquedaDepured + letter;
 	}
+    }
+
+    /**
+     * Método que utiliza como parámetro un string y lo convierte en un ArrayList.
+     * @param busqueda - Un String con la busqueda a realizar.
+     * @return ArrayList<String> - Una lista ligada con cada palabra del texto en 
+     * un nodo.
+     */
+    public ArrayList<String> readString(String busqueda){
+	//Normalizar la busqueda.
+	busqueda = Normalizer.normalize(busqueda.toLowerCase(), Normalizer.Form.NFD);
+	String busquedaDepured = busqueda.replaceAll("[^a-z\\s*]", "");
 	
-	busquedaDepured = Normalizer.normalize(busquedaDepured.toLowerCase(), Normalizer.Form.NFD);
-	String noAccents = busquedaDepured.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-	Scanner io = new Scanner(noAccents).useDelimiter("\\s*\\s");
-	LinkedList<String> fileList = new LinkedList<>();
-	
+	Scanner io = new Scanner(busquedaDepured).useDelimiter("\\s*\\s");
+	ArrayList<String> fileList = new ArrayList<>();
 	while(io.hasNext()){
 	    fileList.add(fileList.size(), io.next());
 	}
 	return fileList;
     }//Method readString
+    
+
+
+
 }//Class

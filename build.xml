@@ -23,6 +23,12 @@ Contiene los siguientes comandos:
     </javac>
   </target>
 
+  <!-- MESSAGES IN TERMINAL
+  <target name="howdy">
+		<input message="What's your name?" addproperty="your-name" validargs="Bob,Fred" />
+		<echo>What's up, ${your-name}?</echo>
+  </target>-->
+  
   <target name="jar" >
     <antcall target="build" />
     <mkdir dir="build/jar" />
@@ -34,6 +40,12 @@ Contiene los siguientes comandos:
 	<attribute name="Main-Class" value="fciencias.edatos.motorBusqueda.MotorBusqueda" />
       </manifest >
     </jar >
+  </target>
+
+  <!-- Compile with user prompts -->
+  <target name="testget" depends="run" >
+    <java classname="fciencias.edatos.motorBusqueda.MotorBusqueda" classpath="Users/Daniel/Documentos/Ciencias/2ndSemester/EDD/finalProject/src/fciencias/edatos/motorBusqueda">
+    </java>
   </target>
 
   <target name="run" >
