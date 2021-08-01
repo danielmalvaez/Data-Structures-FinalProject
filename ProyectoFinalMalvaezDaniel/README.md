@@ -59,15 +59,16 @@ Su acceso a sus elementos se hace en O(1) en la mayoría de los casos.
 En cualquier ventana usted podrá regresar a la ventana anterior y salir del programa. 
 
 ##### Proceso de Ejecución en la Command Line (Terminal)
-* Una vez que sea encuentra posicionado en la carpeta donde se encuentra el proyecto (donde se encuentra el *build.xml*), se utilizarán los comandos que vimos en clase, sin embargo este archivo *build.xml* está implementado por NetBeans y por tanto tiene más comandos con ANT.
+* Para abrir la interfaz del programa, vaya a interfaz/ y ejecute el MiniGoogle.jar que hay dentro (La incluí ya compilada pues se necesitaban varias librerías de NetBeans y dado que no sé si tienen el IDE instalado, decidí mandarlo ya compilado para que no hubiera errores al compilarlo en una máquina externa). Así mismo si desean ver el código de mi proyecto, lo incluí en *interfaz/MotorBusquedaInterfazProject/src/fciencias/edatos/motorBusqueda*  y aquí encontrarán las clases adicionales que no están en el *src/* principal.
+
+* Para ejecutar el programa sin la interfaz gráfica simplemente en la terminal ejecute los siguientes comandos y el programa se ejecutará y realizará directamente en la terminal.
 
 **Comandos a Utilizar:**
 
+* ant build
 * ant jar
 * ant run
 * ant clean
-
-Así mismo igual si se desea se pueden ejecutar los comandos *ant doc* y *ant build*.
 
 #### Nota GUI:
 **LAS GUI ESTÁN IMPLEMENTADAS DE MANERA QUE PUEDAN MINIMIZARSE, SIN EMBARGO, _LA INTERFAZ ES DE UN SOLO TAMAÑO_, EN CASO DE EXPANDIRSE, LA GUI IMPLEMENTADA NO LO HARÁ, ES POR ESO QUE SE RECOMIENDA SIEMPRE MANTENERSE LA VENTANA AL CENTRO Y _NO_ EXPANDIR.**
